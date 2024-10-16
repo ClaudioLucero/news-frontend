@@ -1,14 +1,18 @@
 // src/styles/main.scss
-@import "./_variables.scss"; // Importa las variables
 
-body {
+* {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: $light-background; // Fondo claro por defecto
-  color: $light-text; // Texto oscuro por defecto
+  padding: 0;
+  box-sizing: border-box; // Asegúrate de que el modelo de caja sea consistente
+}
 
-  &.dark-mode {
-    background-color: $dark-background; // Fondo oscuro
-    color: $dark-text; // Texto claro
-  }
+html,
+body {
+  height: 100%; // Asegura que el body ocupe toda la altura
+}
+
+#root {
+  display: flex; // Usa flex para organizar Header y MainContent
+  flex-direction: column; // Organiza en columna
+  height: 100%; // Asegura que el root ocupe toda la altura
 }
