@@ -1,0 +1,63 @@
+@import "../_variables"; // Importa tus variables de colores
+
+.card {
+  border: 1px solid #ccc; // Borde ligero
+  border-radius: 8px; // Bordes redondeados
+  margin: 15px; // Espaciado entre las tarjetas
+  padding: 10px; // Espaciado interno
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+
+  &.light-mode {
+    background-color: $light-background;
+    color: $light-text;
+  }
+
+  &.dark-mode {
+    background-color: $dark-background;
+    color: $dark-text;
+  }
+
+  .image-container {
+    display: flex;
+    justify-content: center; // Centra la imagen
+    align-items: center; // Centra la imagen verticalmente
+    height: 150px; // Altura de la imagen
+    margin-bottom: 10px; // Espaciado inferior
+
+    img {
+      max-width: 100%; // Mantiene la imagen responsiva
+      max-height: 100%; // Mantiene la imagen responsiva
+      border-radius: 4px; // Bordes redondeados para la imagen
+    }
+
+    .MuiSvgIcon-root {
+      font-size: 48px; // Tamaño del icono si no hay imagen
+      color: $primary-color; // Color del icono
+    }
+  }
+
+  .info {
+    .category-author {
+      display: flex;
+      justify-content: space-between; // Espacio entre categoría y autor
+      margin-bottom: 10px; // Espaciado inferior
+    }
+
+    .title {
+      font-size: 1.5rem; // Tamaño del título
+      margin: 5px 0; // Margen vertical
+    }
+
+    .description {
+      font-size: 1rem; // Tamaño de la descripción
+      margin: 5px 0; // Margen vertical
+    }
+
+    .date {
+      font-size: 0.9rem; // Tamaño de la fecha
+      color: #888; // Color gris para la fecha
+    }
+  }
+}

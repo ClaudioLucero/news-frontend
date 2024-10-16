@@ -1,29 +1,21 @@
 // src/components/MainContent.jsx
 import React, { useEffect } from 'react';
 import { useAppContext } from '../context/AppContext';
-import '../styles/components/mainContent.scss'; // Asegúrate de importar los estilos
+import NewsList from './NewsList';
+import '../styles/components/mainContent.scss';
 
 const MainContent = () => {
-    const { isDarkMode, news, fetchNews } = useAppContext(); // Obtiene el estado del contexto
+  const { isDarkMode, news, fetchNews } = useAppContext();
 
-    useEffect(() => {
-        fetchNews(); // Llama a la función para obtener las noticias al montar el componente
-    }, [fetchNews]);
+  useEffect(() => {
+    fetchNews(); // Llama a la función para obtener las noticias al montar el componente
+  }, [fetchNews]); // Ahora fetchNews está memorizado y no causará un bucle infinito
 
-    return (
-        <div className={`main-content ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
-            {news.map((item) => (
-                <div key={item.title} className="news-item">
-                    <h2>{item.title}</h2>
-                    <p>{item.description}</p>
-                    <p>{item.category}</p>
-                    <p>{item.author}</p>
-                    <img src={item.imageUrl} alt={item.title} />
-                    <p>{new Date(item.date).toLocaleDateString()}</p>
-                </div>
-            ))}
-        </div>
-    );
+  return (
+    <div className={`main-content ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
+      <NewsList news={news} />
+    </div>
+  );
 };
 
 export default MainContent;
