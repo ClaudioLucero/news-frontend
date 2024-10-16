@@ -1,0 +1,14 @@
+// src/styles/main.scss
+@import "./_variables.scss"; // Importa las variables
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: $light-background; // Fondo claro por defecto
+  color: $light-text; // Texto oscuro por defecto
+
+  &.dark-mode {
+    background-color: $dark-background; // Fondo oscuro
+    color: $dark-text; // Texto claro
+  }
+}
