@@ -1,9 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types'; // Importa PropTypes
+import React, { useEffect } from 'react';
+import { useAppContext } from '../context/AppContext';
 import Card from './Card'; // Importa el componente Card
 import '../styles/components/newsList.scss'; // Asegúrate de crear e importar estilos para NewsList
 
-const NewsList = ({ news }) => {
+const NewsList = () => {
+    const { news, fetchNews } = useAppContext();
+
+    useEffect(() => {
+        fetchNews(); // Llama a la función para obtener las noticias al montar el componente
+    }, [fetchNews]);
+
+    // if (loading) return <p>Loading...</p>;
+    // if (error) return <p>{error}</p>;
+
     return (
         <div className="news-list">
             {news.map((item) => (
@@ -11,23 +20,6 @@ const NewsList = ({ news }) => {
             ))}
         </div>
     );
-};
-
-// Asigna un nombre de display al componente
-NewsList.displayName = 'NewsList';
-
-// Valida las props con PropTypes
-NewsList.propTypes = {
-    news: PropTypes.arrayOf(
-        PropTypes.shape({
-            title: PropTypes.string.isRequired,
-            description: PropTypes.string.isRequired,
-            category: PropTypes.string.isRequired,
-            author: PropTypes.string.isRequired,
-            imageUrl: PropTypes.string, // Este puede ser opcional
-            date: PropTypes.string.isRequired
-        })
-    ).isRequired
 };
 
 export default NewsList;
