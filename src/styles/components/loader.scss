@@ -1,0 +1,19 @@
+// src/styles/Loader.scss
+@import "../variables.scss"; // Importa tus variables de colores
+
+.loader-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); // Fondo oscuro con opacidad
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999; // Asegúrate de que el loader esté encima de otros elementos
+}
+
+.loader {
+  color: $light-text; // Cambia el color del ícono dependiendo del tema
+}

@@ -1,12 +1,15 @@
 // src/context/AppContext.jsx
 import React, { createContext, useContext, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
+import axios from 'axios'; // Importa Axios
 
 // Crea el contexto
 const AppContext = createContext();
-
+const API = process.env.REACT_APP_API_NEWS;
+console.log(API);
 // Crea un proveedor de contexto
 export const AppProvider = ({ children }) => {
+  console.log(`${API}/news`);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -23,60 +26,54 @@ export const AppProvider = ({ children }) => {
     setError(null); // Reinicia el error en cada llamada
 
     try {
-      // Aquí puedes hacer la llamada a tu API para obtener las noticias
-      const hardcodedNews = [
-        {
-          title: 'Título de noticia 1',
-          description: 'Descripción de la noticia 1.',
-          category: 'Deportes',
-          author: 'Autor 1',
-          imageUrl: '',
-          date: '2024-10-14T21:08:09.919Z'
-        },
-        {
-          title: 'Título de noticia 2',
-          description: 'Descripción de la noticia 2.',
-          category: 'Tecnología',
-          author: 'Autor 2',
-          imageUrl:
-            'https://t4.ftcdn.net/jpg/02/09/53/11/360_F_209531103_vL5MaF5fWcdpVcXk5yREBk3KMcXE0X7m.jpg',
-          date: '2024-10-15T21:08:09.919Z'
-        },
-        {
-          title: 'Título de noticia 3',
-          description: 'Descripción de la noticia 3.',
-          category: 'Salud',
-          author: 'Autor 3',
-          imageUrl:
-            'https://t4.ftcdn.net/jpg/02/09/53/11/360_F_209531103_vL5MaF5fWcdpVcXk5yREBk3KMcXE0X7m.jpg',
-          date: '2024-10-16T21:08:09.919Z'
-        }
-      ];
-
-      // Simula una llamada a la API
-      // const response = await fetch('URL_DE_TU_API');
-      // const data = await response.json();
-      setNews(hardcodedNews); // Usa 'data' en lugar de 'hardcodedNews' para datos reales
+      const response = await axios.get(`${API}/news`);
+      const data = response.data;
+      if (Array.isArray(data)) {
+        setNews(data);
+      } else {
+        setError('Unexpected data format'); // O cualquier otro manejo de error que consideres necesario
+      }
     } catch (error) {
-      setError('Error fetching news'); // Manejo de error
+      const errorMessage = error.response?.data?.message || 'Error fetching news'; // Usa el mensaje de error del servidor si está disponible
+      setError(errorMessage);
       console.error('Error fetching news:', error);
     } finally {
-      setLoading(false); // Se asegura de que loading se establezca en false
+      setLoading(false);
     }
   }, []);
 
   // Función para añadir noticia
-  const addNews = (newNews) => {
-    setNews((prevNews) => [...prevNews, newNews]);
+  const addNews = async (newNews) => {
+    try {
+      const response = await axios.post(`${process.env.REACT_APP_API_NEWS}/news`, newNews);
+      setNews((prevNews) => [...prevNews, response.data]); // Añade la nueva noticia al estado
+    } catch (error) {
+      console.error('Error adding news:', error);
+    }
   };
 
   // Función para editar noticia
-  const editNews = (updatedNews) => {
-    setNews((prevNews) =>
-      prevNews.map((newsItem) =>
-        newsItem.title === updatedNews.title ? updatedNews : newsItem
-      )
-    );
+  const editNews = async (id, updatedNews) => {
+    try {
+      await axios.put(`${process.env.REACT_APP_API_NEWS}/news/${id}`, updatedNews);
+      setNews((prevNews) =>
+        prevNews.map((newsItem) =>
+          newsItem._id === id ? { ...newsItem, ...updatedNews } : newsItem
+        )
+      );
+    } catch (error) {
+      console.error('Error updating news:', error);
+    }
+  };
+
+  // Función para eliminar noticia
+  const deleteNews = async (id) => {
+    try {
+      await axios.delete(`${process.env.REACT_APP_API_NEWS}/news/${id}`);
+      setNews((prevNews) => prevNews.filter((newsItem) => newsItem._id !== id));
+    } catch (error) {
+      console.error('Error deleting news:', error);
+    }
   };
 
   return (
@@ -88,8 +85,9 @@ export const AppProvider = ({ children }) => {
         fetchNews,
         addNews,
         editNews,
+        deleteNews,
         loading,
-        error
+        error,
       }}
     >
       {children}
@@ -99,7 +97,7 @@ export const AppProvider = ({ children }) => {
 
 // Valida las props con PropTypes
 AppProvider.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 };
 
 // Crea un hook para usar el contexto
