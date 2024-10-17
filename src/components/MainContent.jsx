@@ -24,10 +24,10 @@ const MainContent = () => {
     // Aquí puedes manejar la lógica para agregar o editar las noticias en el contexto
     if (editingNews) {
       // Lógica para editar noticia
-      console.log("Editar noticia:", newData);
+      console.log('Editar noticia:', newData);
     } else {
       // Lógica para agregar noticia
-      console.log("Agregar nueva noticia:", newData);
+      console.log('Agregar nueva noticia:', newData);
     }
   };
 
@@ -35,10 +35,13 @@ const MainContent = () => {
     <div className={`main-content ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
       <NewsList setEditingNews={setEditingNews} openModal={openModal} />
 
-      <button className="add-news-button" onClick={() => {
-        setEditingNews({}); // Pasamos un objeto vacío para nueva noticia
-        openModal();
-      }}>
+      <button
+        className="add-news-button"
+        onClick={() => {
+          setEditingNews({}); // Pasamos un objeto vacío para nueva noticia
+          openModal();
+        }}
+      >
         Agregar Noticia
       </button>
 

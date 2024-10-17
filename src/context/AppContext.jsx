@@ -9,12 +9,19 @@ const AppContext = createContext();
 export const AppProvider = ({ children }) => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [news, setNews] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
+  // Función para alternar el modo oscuro
   const toggleMode = () => {
     setIsDarkMode((prevMode) => !prevMode);
   };
 
+  // Función para obtener noticias
   const fetchNews = useCallback(async () => {
+    setLoading(true);
+    setError(null); // Reinicia el error en cada llamada
+
     try {
       // Aquí puedes hacer la llamada a tu API para obtener las noticias
       const hardcodedNews = [
@@ -46,9 +53,15 @@ export const AppProvider = ({ children }) => {
         }
       ];
 
-      setNews(hardcodedNews);
+      // Simula una llamada a la API
+      // const response = await fetch('URL_DE_TU_API');
+      // const data = await response.json();
+      setNews(hardcodedNews); // Usa 'data' en lugar de 'hardcodedNews' para datos reales
     } catch (error) {
+      setError('Error fetching news'); // Manejo de error
       console.error('Error fetching news:', error);
+    } finally {
+      setLoading(false); // Se asegura de que loading se establezca en false
     }
   }, []);
 
@@ -68,7 +81,16 @@ export const AppProvider = ({ children }) => {
 
   return (
     <AppContext.Provider
-      value={{ isDarkMode, toggleMode, news, fetchNews, addNews, editNews }}
+      value={{
+        isDarkMode,
+        toggleMode,
+        news,
+        fetchNews,
+        addNews,
+        editNews,
+        loading,
+        error
+      }}
     >
       {children}
     </AppContext.Provider>
