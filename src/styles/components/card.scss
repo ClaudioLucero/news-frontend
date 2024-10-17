@@ -1,6 +1,7 @@
 @import "../_variables"; // Importa tus variables de colores
 
 .card {
+  position: relative; // Añadido para la posición absoluta de los íconos
   border: 1px solid #ccc; // Borde ligero
   border-radius: 8px; // Bordes redondeados
   margin: 15px; // Espaciado entre las tarjetas
@@ -38,6 +39,29 @@
     }
   }
 
+  .card-icons {
+    position: absolute; // Para posicionar los iconos sobre la tarjeta
+    top: 10px;
+    right: 10px;
+    display: flex;
+    gap: 5px; // Espaciado entre los iconos
+
+    .edit-icon,
+    .delete-icon {
+      cursor: pointer;
+      color: $primary-color;
+      font-size: 24px;
+      transition: color 0.3s;
+
+      &:hover {
+        color: darken(
+          $primary-color,
+          10%
+        ); // Color más oscuro al pasar el ratón
+      }
+    }
+  }
+
   .info {
     .category-author {
       display: flex;
@@ -58,6 +82,76 @@
     .date {
       font-size: 0.9rem; // Tamaño de la fecha
       color: #888; // Color gris para la fecha
+    }
+  }
+}
+.card {
+  position: relative;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin: 15px;
+  padding: 10px;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+
+  .card-actions {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    gap: 10px;
+  }
+
+  &.light-mode {
+    background-color: $light-background;
+    color: $light-text;
+  }
+
+  &.dark-mode {
+    background-color: $dark-background;
+    color: $dark-text;
+  }
+
+  .image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 150px;
+    margin-bottom: 10px;
+
+    img {
+      max-width: 100%;
+      max-height: 100%;
+      border-radius: 4px;
+    }
+
+    .MuiSvgIcon-root {
+      font-size: 48px;
+      color: $primary-color;
+    }
+  }
+
+  .info {
+    .category-author {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .title {
+      font-size: 1.5rem;
+      margin: 5px 0;
+    }
+
+    .description {
+      font-size: 1rem;
+      margin: 5px 0;
+    }
+
+    .date {
+      font-size: 0.9rem;
+      color: #888;
     }
   }
 }

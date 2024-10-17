@@ -6,7 +6,7 @@ import { useAppContext } from '../context/AppContext';
 import CloseIcon from '@mui/icons-material/Close';
 
 const NewsForm = ({ initialData = {}, onClose }) => {
-  const { isDarkMode, addNews, loading } = useAppContext();
+  const { isDarkMode, addNews, editNews, loading } = useAppContext();
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -18,8 +18,9 @@ const NewsForm = ({ initialData = {}, onClose }) => {
   const categories = process.env.REACT_APP_NEWS_CATEGORIES.split(','); // Obtener las categorías del .env
   const formRef = useRef(null);
 
+  // Cargar los datos iniciales si los hay (para editar)
   useEffect(() => {
-    if (initialData) {
+    if (initialData && initialData._id) {
       setFormData({
         title: initialData.title || '',
         description: initialData.description || '',
@@ -45,9 +46,18 @@ const NewsForm = ({ initialData = {}, onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const success = await addNews(formData);
-    if (success) {
-      onClose();
+    if (initialData._id) {
+      // Si hay un ID, es una edición
+      const success = await editNews(initialData._id, formData);
+      if (success) {
+        onClose(); // Cerrar el formulario después de editar
+      }
+    } else {
+      // Si no hay ID, es una nueva noticia
+      const success = await addNews(formData);
+      if (success) {
+        onClose(); // Cerrar el formulario después de agregar
+      }
     }
   };
 
@@ -75,7 +85,7 @@ const NewsForm = ({ initialData = {}, onClose }) => {
               top: '10px'
             }}
           />
-          <h2>{initialData.title ? 'Editar Noticia' : 'Agregar Noticia'}</h2>
+          <h2>{initialData._id ? 'Editar Noticia' : 'Agregar Noticia'}</h2>
 
           <label htmlFor="title">Título:</label>
           <input
@@ -132,7 +142,7 @@ const NewsForm = ({ initialData = {}, onClose }) => {
           />
 
           <button type="submit" disabled={loading}>
-            {initialData.title ? 'Guardar Cambios' : 'Agregar Noticia'}
+            {initialData._id ? 'Guardar Cambios' : 'Agregar Noticia'}
           </button>
         </form>
       </div>
@@ -142,13 +152,13 @@ const NewsForm = ({ initialData = {}, onClose }) => {
 
 NewsForm.propTypes = {
   initialData: PropTypes.shape({
+    _id: PropTypes.string,
     title: PropTypes.string,
     description: PropTypes.string,
     category: PropTypes.string,
     author: PropTypes.string,
     imageUrl: PropTypes.string
   }),
-  onSubmit: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired
 };
 

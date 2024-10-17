@@ -63,28 +63,41 @@ export const AppProvider = ({ children }) => {
 
   // Función para editar noticia
   const editNews = async (id, updatedNews) => {
+    setLoading(true);
+    setError(null);
     try {
-      await axios.put(
-        `${process.env.REACT_APP_API_NEWS}/news/${id}`,
-        updatedNews
-      );
+      const response = await axios.put(`${API}/news/${id}`, updatedNews);
       setNews((prevNews) =>
         prevNews.map((newsItem) =>
-          newsItem._id === id ? { ...newsItem, ...updatedNews } : newsItem
+          newsItem._id === id ? { ...newsItem, ...response.data } : newsItem
         )
       );
+      setLoading(false);
+      return true; // Devuelve true si se actualizó correctamente
     } catch (error) {
+      const errorMessage = error.response?.data?.message || 'Error updating news';
+      setError(errorMessage);
+      setLoading(false);
       console.error('Error updating news:', error);
+      return false; // Devuelve false si hubo un error
     }
   };
 
   // Función para eliminar noticia
   const deleteNews = async (id) => {
+    setLoading(true);
+    setError(null);
     try {
-      await axios.delete(`${process.env.REACT_APP_API_NEWS}/news/${id}`);
+      await axios.delete(`${API}/news/${id}`);
       setNews((prevNews) => prevNews.filter((newsItem) => newsItem._id !== id));
+      setLoading(false);
+      return true; // Devuelve true si se eliminó correctamente
     } catch (error) {
+      const errorMessage = error.response?.data?.message || 'Error deleting news';
+      setError(errorMessage);
+      setLoading(false);
       console.error('Error deleting news:', error);
+      return false; // Devuelve false si hubo un error
     }
   };
 
