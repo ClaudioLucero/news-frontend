@@ -17,10 +17,6 @@ export const AppProvider = ({ children }) => {
   const fetchNews = useCallback(async () => {
     try {
       // Aquí puedes hacer la llamada a tu API para obtener las noticias
-      // const response = await fetch('URL_DE_TU_API'); // Reemplaza con la URL de tu API
-      // const data = await response.json();
-      // setNews(data); // Establece las noticias en el estado
-
       const hardcodedNews = [
         {
           title: 'Título de noticia 1',
@@ -54,10 +50,26 @@ export const AppProvider = ({ children }) => {
     } catch (error) {
       console.error('Error fetching news:', error);
     }
-  }, []); // Asegúrate de pasar un arreglo vacío para que solo se ejecute al montar el componente
+  }, []);
+
+  // Función para añadir noticia
+  const addNews = (newNews) => {
+    setNews((prevNews) => [...prevNews, newNews]);
+  };
+
+  // Función para editar noticia
+  const editNews = (updatedNews) => {
+    setNews((prevNews) =>
+      prevNews.map((newsItem) =>
+        newsItem.title === updatedNews.title ? updatedNews : newsItem
+      )
+    );
+  };
 
   return (
-    <AppContext.Provider value={{ isDarkMode, toggleMode, news, fetchNews }}>
+    <AppContext.Provider
+      value={{ isDarkMode, toggleMode, news, fetchNews, addNews, editNews }}
+    >
       {children}
     </AppContext.Provider>
   );
