@@ -64,7 +64,33 @@
         margin-right: 1rem;
       }
     }
+    select {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1rem;
+      background-color: $light-background;
+      color: $light-text;
+      appearance: none; // Oculta el estilo por defecto del navegador (la flecha de selección)
+      background-image: url("data:image/svg+xml;charset=US-ASCII,<svg...>"); // Agrega una flecha personalizada
+      background-position: right 10px center; // Posición de la flecha
+      background-repeat: no-repeat;
+      background-size: 12px;
 
+      &:focus {
+        border-color: $primary-color;
+        outline: none;
+      }
+
+      // Para modo oscuro
+      .dark & {
+        background-color: $dark-background;
+        color: $dark-text;
+        border-color: lighten($dark-background, 10%);
+      }
+    }
     // Estilos para el icono de cierre
     .close-icon {
       position: absolute;

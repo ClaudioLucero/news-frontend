@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import '../styles/components/newsForm.scss';
+import Loader from './Loader'; // Importa el componente de carga
 import { useAppContext } from '../context/AppContext';
 import CloseIcon from '@mui/icons-material/Close';
 
-const NewsForm = ({ initialData = {}, onSubmit, onClose }) => {
-  const { isDarkMode } = useAppContext();
+const NewsForm = ({ initialData = {}, onClose }) => {
+  const { isDarkMode, addNews, loading } = useAppContext();
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -14,7 +15,7 @@ const NewsForm = ({ initialData = {}, onSubmit, onClose }) => {
     imageUrl: ''
   });
 
-  // Crear una referencia para el formulario
+  const categories = process.env.REACT_APP_NEWS_CATEGORIES.split(','); // Obtener las categorías del .env
   const formRef = useRef(null);
 
   useEffect(() => {
@@ -39,16 +40,17 @@ const NewsForm = ({ initialData = {}, onSubmit, onClose }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value })); // Usa el valor anterior para actualizar el estado
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSubmit(formData);
-    onClose();
+    const success = await addNews(formData);
+    if (success) {
+      onClose();
+    }
   };
 
-  // Cierra el modal cuando se hace clic fuera del área del formulario
   const handleOutsideClick = (e) => {
     if (formRef.current && !formRef.current.contains(e.target)) {
       onClose();
@@ -60,6 +62,7 @@ const NewsForm = ({ initialData = {}, onSubmit, onClose }) => {
       className={`modal-overlay ${isDarkMode ? 'dark' : 'light'}`}
       onClick={handleOutsideClick}
     >
+      {loading && <Loader />}
       <div className={`news-form-modal ${isDarkMode ? 'dark' : 'light'}`}>
         <form className="news-form" onSubmit={handleSubmit} ref={formRef}>
           <CloseIcon
@@ -94,14 +97,20 @@ const NewsForm = ({ initialData = {}, onSubmit, onClose }) => {
           />
 
           <label htmlFor="category">Categoría:</label>
-          <input
-            type="text"
+          <select
             id="category"
             name="category"
             value={formData.category}
             onChange={handleChange}
             required
-          />
+          >
+            <option value="">Seleccionar categoría</option>
+            {categories.map((category) => (
+              <option key={category} value={category}>
+                {category}
+              </option>
+            ))}
+          </select>
 
           <label htmlFor="author">Autor:</label>
           <input
@@ -122,7 +131,7 @@ const NewsForm = ({ initialData = {}, onSubmit, onClose }) => {
             onChange={handleChange}
           />
 
-          <button type="submit">
+          <button type="submit" disabled={loading}>
             {initialData.title ? 'Guardar Cambios' : 'Agregar Noticia'}
           </button>
         </form>
@@ -131,7 +140,6 @@ const NewsForm = ({ initialData = {}, onSubmit, onClose }) => {
   );
 };
 
-// PropTypes para la validación de props
 NewsForm.propTypes = {
   initialData: PropTypes.shape({
     title: PropTypes.string,

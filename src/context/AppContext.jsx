@@ -34,7 +34,8 @@ export const AppProvider = ({ children }) => {
         setError('Unexpected data format'); // O cualquier otro manejo de error que consideres necesario
       }
     } catch (error) {
-      const errorMessage = error.response?.data?.message || 'Error fetching news'; // Usa el mensaje de error del servidor si está disponible
+      const errorMessage =
+        error.response?.data?.message || 'Error fetching news'; // Usa el mensaje de error del servidor si está disponible
       setError(errorMessage);
       console.error('Error fetching news:', error);
     } finally {
@@ -44,18 +45,29 @@ export const AppProvider = ({ children }) => {
 
   // Función para añadir noticia
   const addNews = async (newNews) => {
+    setLoading(true);
+    setError(null);
     try {
-      const response = await axios.post(`${process.env.REACT_APP_API_NEWS}/news`, newNews);
+      const response = await axios.post(`${API}/news`, newNews);
       setNews((prevNews) => [...prevNews, response.data]); // Añade la nueva noticia al estado
+      setLoading(false); // Finaliza el estado de carga
+      return true; // Devuelve true si se creó correctamente
     } catch (error) {
+      const errorMessage = error.response?.data?.message || 'Error adding news';
+      setError(errorMessage);
+      setLoading(false);
       console.error('Error adding news:', error);
+      return false; // Devuelve false si hubo un error
     }
   };
 
   // Función para editar noticia
   const editNews = async (id, updatedNews) => {
     try {
-      await axios.put(`${process.env.REACT_APP_API_NEWS}/news/${id}`, updatedNews);
+      await axios.put(
+        `${process.env.REACT_APP_API_NEWS}/news/${id}`,
+        updatedNews
+      );
       setNews((prevNews) =>
         prevNews.map((newsItem) =>
           newsItem._id === id ? { ...newsItem, ...updatedNews } : newsItem
@@ -87,7 +99,7 @@ export const AppProvider = ({ children }) => {
         editNews,
         deleteNews,
         loading,
-        error,
+        error
       }}
     >
       {children}
@@ -97,7 +109,7 @@ export const AppProvider = ({ children }) => {
 
 // Valida las props con PropTypes
 AppProvider.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired
 };
 
 // Crea un hook para usar el contexto
