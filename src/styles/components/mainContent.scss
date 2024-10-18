@@ -1,11 +1,10 @@
-// src/styles/components/mainContent.scss
-
 @import "../_variables"; // Importa tus variables de colores
 
 .main-content {
-  flex: 1; // Permite que el MainContent ocupe todo el espacio disponible
+  flex: 1; // Permite que MainContent crezca
   padding: 20px;
-  height: 100vh;
+  min-height: 100vh; // Asegura que el fondo cubra al menos el 100% de la altura de la pantalla
+  background-color: $light-background;
   transition:
     background-color 0.3s ease,
     color 0.3s ease;
@@ -20,35 +19,29 @@
     color: $dark-text;
   }
 
-  // Agrega más estilos según sea necesario
   .add-news-button {
-    position: fixed; // Fijo para que flote
-    bottom: 20px; // Distancia del fondo
-    right: 20px; // Distancia del lado derecho
-    background-color: $primary-color; // Color de fondo
-    color: #fff; // Color del texto
-    border: none; // Sin borde
-    border-radius: 50%; // Botón circular
-    width: 56px; // Ancho del botón
-    height: 56px; // Alto del botón
-    display: flex; // Alinear ícono y texto
-    align-items: center; // Centrar verticalmente
-    justify-content: center; // Centrar horizontalmente
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); // Sombra
-    cursor: pointer; // Cambia el cursor al pasar
-    overflow: hidden; // Oculta el texto fuera del botón
-
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: $primary-color;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    overflow: hidden;
     transition:
       background-color 0.3s ease,
-      transform 0.2s ease; // Transiciones suaves
+      transform 0.2s ease;
 
-    // Efecto al pasar el mouse
     &:hover {
-      background-color: darken($primary-color, 10%); // Cambio de color
-      transform: scale(1.1); // Aumentar ligeramente el tamaño
+      background-color: darken($primary-color, 10%);
+      transform: scale(1.1);
     }
-  }
-  @media (max-width: 768px) {
-    height: auto; // Desactiva la altura fija en dispositivos móviles
   }
 }
