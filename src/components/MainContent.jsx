@@ -40,7 +40,6 @@ const MainContent = () => {
         }}
       >
         <AddCircleSharpIcon style={{ fontSize: '40px' }} />
-
       </button>
 
       {isModalOpen && (

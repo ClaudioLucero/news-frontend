@@ -3,7 +3,7 @@
 
 .news-list {
   display: grid; // Activa el grid para la lista de noticias
-  height: 100%; // Ocupar el 100% de la altura
+  // height: 100%; // Ocupar el 100% de la altura
   grid-template-columns: repeat(
     auto-fill,
     minmax(250px, 1fr)

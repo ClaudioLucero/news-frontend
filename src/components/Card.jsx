@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useAppContext } from '../context/AppContext';
-import ImageSearchIcon from '@mui/icons-material/ImageSearch';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import NewsForm from './NewsForm'; // Importa el componente NewsForm
@@ -30,10 +29,7 @@ const Card = ({ newsItem }) => {
 
   const handleConfirmDialog = async () => {
     if (dialogAction === 'delete') {
-      if (dialogAction === 'delete') {
-        await deleteNews(newsItem._id); // Llama a deleteNews con el id de la noticia
-      }
-      setOpenDialog(false); // Cierra el diálogo después de la acción
+      await deleteNews(newsItem._id); // Llama a deleteNews con el id de la noticia
     } else if (dialogAction === 'edit') {
       setIsEditing(true); // Abre el formulario de edición
     }
@@ -47,7 +43,7 @@ const Card = ({ newsItem }) => {
           {newsItem.imageUrl ? (
             <img src={newsItem.imageUrl} alt={newsItem.title} />
           ) : (
-            <ImageSearchIcon style={{ fontSize: '100px' }} /> // Icono de Material UI si no hay imagen
+            <img src="/image-news.png" alt="Default News" /> // Imagen por defecto
           )}
         </div>
         <div className="info">

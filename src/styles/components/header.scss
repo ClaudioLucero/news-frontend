@@ -7,7 +7,6 @@
   left: 0; // Alinea el header a la izquierda
   right: 0; // Alinea el header a la derecha
   z-index: 1000; // Asegúrate de que el header esté por encima de otros elementos
-
   display: flex;
   align-items: center; // Centra verticalmente los elementos
   padding: 1rem;
@@ -17,6 +16,7 @@
   &.light {
     background-color: $light-header-bg; // Fondo claro
     color: $light-text; // Texto oscuro
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
 
   &.dark {

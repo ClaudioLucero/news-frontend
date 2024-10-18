@@ -5,7 +5,7 @@
 .main-content {
   flex: 1; // Permite que el MainContent ocupe todo el espacio disponible
   padding: 20px;
-  height: 95vh;
+  height: 100vh;
   transition:
     background-color 0.3s ease,
     color 0.3s ease;
@@ -47,5 +47,8 @@
       background-color: darken($primary-color, 10%); // Cambio de color
       transform: scale(1.1); // Aumentar ligeramente el tamaño
     }
+  }
+  @media (max-width: 768px) {
+    height: auto; // Desactiva la altura fija en dispositivos móviles
   }
 }

@@ -1,158 +1,115 @@
 @import "../_variables"; // Importa tus variables de colores
-
 .card {
-  position: relative; // Añadido para la posición absoluta de los íconos
-  height: 300px;
-  border: 1px solid #ccc; // Borde ligero
-  border-radius: 8px; // Bordes redondeados
-  margin: 15px; // Espaciado entre las tarjetas
-  padding: 10px; // Espaciado interno
+  position: relative;
+  background-color: #ffffff;
+  height: 350px; // Altura fija para la tarjeta
+  width: 260px;
+  border-radius: 8px;
+  margin: 15px;
+  padding: 10px;
+
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; // Para distribuir espacio uniformemente entre las secciones
   transition:
     background-color 0.3s ease,
-    color 0.3s ease;
-
+    color 0.3s ease,
+    box-shadow 0.3s ease;
   &.light-mode {
-    background-color: $light-background;
+    background-color: #ffffff;
     color: $light-text;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ccc;
   }
-
   &.dark-mode {
-    background-color: $dark-background;
+    background-color: #313030;
     color: $dark-text;
+    box-shadow: 0 4px 8px rgba(39, 38, 38, 0.1);
   }
-
   .image-container {
-    display: flex;
-    justify-content: center; // Centra la imagen
-    align-items: center; // Centra la imagen verticalmente
-    height: 150px; // Altura de la imagen
-    margin-bottom: 10px; // Espaciado inferior
-
+    height: 150px;
+    margin-bottom: 10px;
     img {
-      max-width: 100%; // Mantiene la imagen responsiva
-      max-height: 100%; // Mantiene la imagen responsiva
-      border-radius: 4px; // Bordes redondeados para la imagen
-    }
-
-    .MuiSvgIcon-root {
-      font-size: 48px; // Tamaño del icono si no hay imagen
-      color: $primary-color; // Color del icono
-    }
-  }
-
-  .card-icons {
-    position: absolute; // Para posicionar los iconos sobre la tarjeta
-    top: 10px;
-    right: 10px;
-    display: flex;
-    gap: 5px; // Espaciado entre los iconos
-
-    .edit-icon,
-    .delete-icon {
-      cursor: pointer;
-      color: $primary-color;
-      font-size: 24px;
-      transition: color 0.3s;
-
-      &:hover {
-        color: darken(
-          $primary-color,
-          10%
-        ); // Color más oscuro al pasar el ratón
-      }
+      width: 100%;
+      height: 100%; // Aseguramos que la imagen siempre ocupe el espacio asignado
+      object-fit: cover; // La imagen se adapta manteniendo su relación de aspecto
+      border-radius: 4px;
     }
   }
 
   .info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+
     .category-author {
       display: flex;
-      justify-content: space-between; // Espacio entre categoría y autor
-      margin-bottom: 10px; // Espaciado inferior
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+
+      .category {
+        background-color: $primary-color;
+        color: white;
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 0.9rem;
+      }
+
+      .date {
+        font-size: 0.9rem;
+        color: #888;
+      }
     }
 
     .title {
-      font-size: 1.5rem; // Tamaño del título
-      margin: 5px 0; // Margen vertical
+      font-size: 1.5rem;
+      margin: 5px 0;
+      flex-shrink: 0; // Evita que el título se comprima
     }
 
     .description {
-      font-size: 1rem; // Tamaño de la descripción
-      margin: 5px 0; // Margen vertical
+      font-size: 1rem;
+      margin: 5px 0;
+      flex-grow: 1; // La descripción puede crecer, pero tiene un límite
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 3; // Limita a 3 líneas de texto
+      -webkit-box-orient: vertical;
     }
 
-    .date {
-      font-size: 0.9rem; // Tamaño de la fecha
-      color: #888; // Color gris para la fecha
+    .author {
+      font-size: 0.9rem;
+      color: #888;
+      margin-top: auto; // Empuja al autor hacia abajo
+      flex-shrink: 0; // Evita que el autor se comprima
     }
   }
-}
-.card {
-  position: relative;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  margin: 15px;
-  padding: 10px;
-  transition:
-    background-color 0.3s ease,
-    color 0.3s ease;
 
   .card-actions {
     position: absolute;
     top: 10px;
     right: 10px;
     display: flex;
-    gap: 10px;
-  }
 
-  &.light-mode {
-    background-color: $light-background;
-    color: $light-text;
-  }
+    svg {
+      background-color: rgba(0, 0, 0, 0.6); // Fondo negro semi-transparente
+      border-radius: 50%;
+      padding: 5px;
+      color: white; // Color del icono en blanco
+      cursor: pointer;
+      transition: background-color 0.3s ease;
 
-  &.dark-mode {
-    background-color: $dark-background;
-    color: $dark-text;
-  }
-
-  .image-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 150px;
-    margin-bottom: 10px;
-
-    img {
-      max-width: 100%;
-      max-height: 100%;
-      border-radius: 4px;
-    }
-
-    .MuiSvgIcon-root {
-      font-size: 48px;
-      color: $primary-color;
-    }
-  }
-
-  .info {
-    .category-author {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 10px;
-    }
-
-    .title {
-      font-size: 1.5rem;
-      margin: 5px 0;
-    }
-
-    .description {
-      font-size: 1rem;
-      margin: 5px 0;
-    }
-
-    .date {
-      font-size: 0.9rem;
-      color: #888;
+      &:hover {
+        background-color: rgba(
+          0,
+          0,
+          0,
+          0.8
+        ); // Cambia a un fondo más oscuro al hacer hover
+      }
     }
   }
 }
