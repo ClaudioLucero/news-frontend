@@ -20,4 +20,31 @@
   }
 
   // Agrega más estilos según sea necesario
+  .add-news-button {
+    position: fixed; // Fijo para que flote
+    bottom: 20px; // Distancia del fondo
+    right: 20px; // Distancia del lado derecho
+    background-color: $primary-color; // Color de fondo
+    color: #fff; // Color del texto
+    border: none; // Sin borde
+    border-radius: 50%; // Botón circular
+    width: 56px; // Ancho del botón
+    height: 56px; // Alto del botón
+    display: flex; // Alinear ícono y texto
+    align-items: center; // Centrar verticalmente
+    justify-content: center; // Centrar horizontalmente
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); // Sombra
+    cursor: pointer; // Cambia el cursor al pasar
+    overflow: hidden; // Oculta el texto fuera del botón
+
+    transition:
+      background-color 0.3s ease,
+      transform 0.2s ease; // Transiciones suaves
+
+    // Efecto al pasar el mouse
+    &:hover {
+      background-color: darken($primary-color, 10%); // Cambio de color
+      transform: scale(1.1); // Aumentar ligeramente el tamaño
+    }
+  }
 }
