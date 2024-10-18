@@ -104,6 +104,10 @@
         color: darken($light-text, 10%);
       }
     }
+    .limit-description {
+      margin-top: -8px;
+      margin-bottom: 12px;
+    }
   }
 
   // Estilos para el modo nocturno

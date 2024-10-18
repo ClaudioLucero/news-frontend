@@ -37,16 +37,23 @@ export const AppProvider = ({ children }) => {
   };
 
   // Función para obtener noticias
+  // Función para obtener noticias
   const fetchNews = useCallback(async () => {
     setLoading(true);
     setError(null);
 
     try {
       const response = await axios.get(`${API}/news`);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       const data = response.data;
+
       if (Array.isArray(data)) {
         setNews(data);
-        showSnackbar('Noticias obtenidas exitosamente');
+        if (data.length === 0) {
+          showSnackbar('No hay noticias para mostrar', 'info'); // Mensaje si no hay noticias
+        } else {
+          showSnackbar('Noticias obtenidas exitosamente');
+        }
       } else {
         setError('Unexpected data format');
         showSnackbar('Formato de datos inesperado', 'error');

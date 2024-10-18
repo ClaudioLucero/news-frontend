@@ -41,7 +41,7 @@ const Card = ({ newsItem }) => {
       <div className={`card ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
         <div className="image-container">
           {newsItem.imageUrl ? (
-            <img src={newsItem.imageUrl} alt={newsItem.title} />
+            <img src={newsItem.imageUrl} alt={newsItem.title} loading="lazy" />
           ) : (
             <img src="/image-news.png" alt="Default News" /> // Imagen por defecto
           )}

@@ -5,6 +5,8 @@ import Loader from './Loader'; // Importa el componente de carga
 import { useAppContext } from '../context/AppContext';
 import CloseIcon from '@mui/icons-material/Close';
 
+const MAX_DESCRIPTION_LENGTH = 100; // Definir la longitud máxima de la descripción
+
 const NewsForm = ({ initialData = {}, onClose }) => {
   const { isDarkMode, addNews, editNews, loading } = useAppContext();
   const [formData, setFormData] = useState({
@@ -41,6 +43,12 @@ const NewsForm = ({ initialData = {}, onClose }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    if (name === 'description' && value.length > MAX_DESCRIPTION_LENGTH) {
+      // Limitar la longitud de la descripción
+      return;
+    }
+
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
@@ -104,7 +112,11 @@ const NewsForm = ({ initialData = {}, onClose }) => {
             value={formData.description}
             onChange={handleChange}
             required
+            maxLength={MAX_DESCRIPTION_LENGTH} // Limitar longitud
           />
+          <div className="limit-description">
+            {`${formData.description.length}/${MAX_DESCRIPTION_LENGTH} caracteres`}
+          </div>
 
           <label htmlFor="category">Categoría:</label>
           <select
