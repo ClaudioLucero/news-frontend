@@ -1,19 +1,35 @@
-// src/context/AppContext.jsx
 import React, { createContext, useContext, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import axios from 'axios'; // Importa Axios
+import axios from 'axios';
+import { Snackbar } from '@mui/material'; // Asegúrate de importar desde @mui/material
 
 // Crea el contexto
 const AppContext = createContext();
 const API = process.env.REACT_APP_API_NEWS;
-console.log(API);
+
 // Crea un proveedor de contexto
 export const AppProvider = ({ children }) => {
-  console.log(`${API}/news`);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  // Estado para manejar el Snackbar
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: '',
+    severity: 'success'
+  });
+
+  // Función para mostrar el Snackbar
+  const showSnackbar = (message, severity = 'success') => {
+    setSnackbar({ open: true, message, severity });
+  };
+
+  // Función para cerrar el Snackbar
+  const handleCloseSnackbar = () => {
+    setSnackbar({ ...snackbar, open: false });
+  };
 
   // Función para alternar el modo oscuro
   const toggleMode = () => {
@@ -23,21 +39,23 @@ export const AppProvider = ({ children }) => {
   // Función para obtener noticias
   const fetchNews = useCallback(async () => {
     setLoading(true);
-    setError(null); // Reinicia el error en cada llamada
+    setError(null);
 
     try {
       const response = await axios.get(`${API}/news`);
       const data = response.data;
       if (Array.isArray(data)) {
         setNews(data);
+        showSnackbar('Noticias obtenidas exitosamente');
       } else {
-        setError('Unexpected data format'); // O cualquier otro manejo de error que consideres necesario
+        setError('Unexpected data format');
+        showSnackbar('Formato de datos inesperado', 'error');
       }
     } catch (error) {
       const errorMessage =
-        error.response?.data?.message || 'Error fetching news'; // Usa el mensaje de error del servidor si está disponible
+        error.response?.data?.message || 'Error fetching news';
       setError(errorMessage);
-      console.error('Error fetching news:', error);
+      showSnackbar(errorMessage, 'error');
     } finally {
       setLoading(false);
     }
@@ -49,15 +67,16 @@ export const AppProvider = ({ children }) => {
     setError(null);
     try {
       const response = await axios.post(`${API}/news`, newNews);
-      setNews((prevNews) => [...prevNews, response.data]); // Añade la nueva noticia al estado
-      setLoading(false); // Finaliza el estado de carga
-      return true; // Devuelve true si se creó correctamente
+      setNews((prevNews) => [...prevNews, response.data]);
+      showSnackbar('Noticia guardada exitosamente');
+      return true;
     } catch (error) {
       const errorMessage = error.response?.data?.message || 'Error adding news';
       setError(errorMessage);
+      showSnackbar(errorMessage, 'error');
+      return false;
+    } finally {
       setLoading(false);
-      console.error('Error adding news:', error);
-      return false; // Devuelve false si hubo un error
     }
   };
 
@@ -72,14 +91,16 @@ export const AppProvider = ({ children }) => {
           newsItem._id === id ? { ...newsItem, ...response.data } : newsItem
         )
       );
-      setLoading(false);
-      return true; // Devuelve true si se actualizó correctamente
+      showSnackbar('Noticia editada exitosamente');
+      return true;
     } catch (error) {
-      const errorMessage = error.response?.data?.message || 'Error updating news';
+      const errorMessage =
+        error.response?.data?.message || 'Error updating news';
       setError(errorMessage);
+      showSnackbar(errorMessage, 'error');
+      return false;
+    } finally {
       setLoading(false);
-      console.error('Error updating news:', error);
-      return false; // Devuelve false si hubo un error
     }
   };
 
@@ -90,14 +111,16 @@ export const AppProvider = ({ children }) => {
     try {
       await axios.delete(`${API}/news/${id}`);
       setNews((prevNews) => prevNews.filter((newsItem) => newsItem._id !== id));
-      setLoading(false);
-      return true; // Devuelve true si se eliminó correctamente
+      showSnackbar('Noticia eliminada exitosamente');
+      return true;
     } catch (error) {
-      const errorMessage = error.response?.data?.message || 'Error deleting news';
+      const errorMessage =
+        error.response?.data?.message || 'Error deleting news';
       setError(errorMessage);
+      showSnackbar(errorMessage, 'error');
+      return false;
+    } finally {
       setLoading(false);
-      console.error('Error deleting news:', error);
-      return false; // Devuelve false si hubo un error
     }
   };
 
@@ -116,6 +139,15 @@ export const AppProvider = ({ children }) => {
       }}
     >
       {children}
+
+      {/* Renderiza el Snackbar */}
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackbar}
+        message={snackbar.message}
+        severity={snackbar.severity} // Esto necesita ser estilizado por Material UI
+      />
     </AppContext.Provider>
   );
 };
