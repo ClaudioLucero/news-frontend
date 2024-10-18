@@ -2,9 +2,14 @@
 @import "../_variables.scss"; // Importa las variables
 
 .header {
+  position: fixed; // Fija el header en la parte superior
+  top: 0; // Coloca el header en la parte superior de la ventana
+  left: 0; // Alinea el header a la izquierda
+  right: 0; // Alinea el header a la derecha
+  z-index: 1000; // Asegúrate de que el header esté por encima de otros elementos
+
   display: flex;
-  justify-content: center; // Centra el contenido del header
-  align-items: center;
+  align-items: center; // Centra verticalmente los elementos
   padding: 1rem;
   background-color: $light-header-bg; // Color de fondo claro por defecto
   color: $light-text; // Texto claro por defecto
@@ -19,22 +24,18 @@
     color: $dark-text; // Texto claro
   }
 
-  h1 {
+  .title {
     margin: 0; // Elimina el margen para centrar perfectamente
     flex: 1; // Permite que el h1 tome espacio
-    text-align: center; // Centra el texto
   }
 
   .mode-toggle {
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    font-size: 1.5rem;
-    margin-left: auto; // Empuja el botón a la derecha
-  }
+    display: flex; // Usa flex para alinear el interruptor y el ícono
+    align-items: center; // Centra verticalmente el contenido
+    margin-left: auto; // Empuja el contenedor hacia la derecha
 
-  .mode-info {
-    margin-left: 1rem; // Espacio entre el botón y el texto
-    font-size: 1rem; // Ajusta el tamaño de fuente
+    svg {
+      margin-left: 0.5rem; // Espacio entre el interruptor y el ícono
+    }
   }
 }

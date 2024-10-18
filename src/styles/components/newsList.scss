@@ -3,12 +3,21 @@
 
 .news-list {
   display: grid; // Activa el grid para la lista de noticias
-  height: 100%;
+  height: 100%; // Ocupar el 100% de la altura
   grid-template-columns: repeat(
     auto-fill,
     minmax(250px, 1fr)
   ); // Configura las columnas
-  gap: 20px; // Espacio entre los ítems
+  gap: 20px; // Espacio entre los ítems;
+  margin-top: 50px;
+
+  .no-news-message {
+    text-align: center; // Centra el texto horizontalmente
+    color: $light-text; // Ajusta según tu tema
+    font-size: 1.5rem; // Tamaño del texto
+    margin: 20px 0; // Margen superior e inferior
+    width: 100%; // Ocupa todo el ancho disponible
+  }
 
   .news-item {
     background-color: lighten($dark-background, 5%); // Fondo de los ítems

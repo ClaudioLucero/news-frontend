@@ -18,7 +18,7 @@ const NewsList = () => {
     <div className="news-list">
       {loading && <Loader />} {/* Muestra el Loader si está cargando */}
       {news.length === 0 ? (
-        <p>No hay noticias disponibles.</p> // Mensaje si no hay noticias
+        <p className="no-news-message">No hay noticias disponibles.</p> // Mensaje si no hay noticias
       ) : (
         news.map((item) => (
           <Card key={item._id} newsItem={item} /> // Llama al componente Card
