@@ -1,70 +1,74 @@
-# Getting Started with Create React App
+# News Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Este proyecto es la aplicación frontend para gestionar y visualizar noticias. Está construida con **React** y se conecta a la API backend para obtener y gestionar datos de noticias.
 
-## Available Scripts
+## Requisitos
 
-In the project directory, you can run:
+- Node.js v14+
+- npm o Yarn
+- (Opcional) Docker para ejecutar la aplicación junto con el backend
 
-### `npm start`
+## Librerías
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Este proyecto utiliza las siguientes librerías:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **React** v18.3.1
+- **@mui/material** v6.1.4
+- **Axios** v1.7.7
+- **Prop-Types** v15.8.1
+- **@emotion/react** v11.13.3
+- **@emotion/styled** v11.13.0
+- **Sass** v1.79.5
 
-### `npm test`
+## Instalación
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Clona el repositorio:
+   ```bash
+   git clone https://github.com/ClaudioLucero/news-frontend.git
+   ```
 
-### `npm run build`
+### 2. Configurar el archivo `.env`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash│
+PORT=3001
+REACT_APP_API_NEWS=http://localhost:3000/api
+REACT_APP_NEWS_CATEGORIES=Technology,Health,Sports,Entertainment
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 3. Ejecución Modo local
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+npm install
+npm start
 
-### `npm run eject`
+## Estructura del Proyecto
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash│
+├── public/         # Archivos estáticos y el HTML principal
+├── src/            # Código fuente de la aplicación
+│   ├── components/  # Componentes reutilizables
+│   ├── pages/       # Páginas de la aplicación
+│   ├── services/    # Servicios para manejar llamadas a la API
+│   ├── App.js       # Componente principal de la aplicación
+│   ├── index.js     # Punto de entrada de la aplicación
+└── package.json     # Dependencias del proyecto
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Ejecución con Docker
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Si el backend se está ejecutando en Docker, asegúrate de que esté configurado correctamente y en funcionamiento. La aplicación frontend podrá comunicarse con el backend a través de la URL especificada en el archivo .env.
 
-## Learn More
+Para ejecutar ambos servicios (frontend y backend) con Docker, usa el siguiente comando en el directorio del backend:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash│
+docker-compose up --build
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```
 
-### Code Splitting
+## Uso
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Al iniciar la aplicación, se conectará automáticamente a la API backend y podrá gestionar las noticias disponibles.
 
-### Analyzing the Bundle Size
+## Prueba de la Aplicación
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Visita http://localhost:3001 en tu navegador para interactuar con la aplicación y ver las noticias gestionadas a través de la API.
