@@ -12,6 +12,7 @@
   padding: 1rem;
   background-color: $light-header-bg; // Color de fondo claro por defecto
   color: $light-text; // Texto claro por defecto
+  font-family: $font-text;
 
   &.light {
     background-color: $light-header-bg; // Fondo claro
