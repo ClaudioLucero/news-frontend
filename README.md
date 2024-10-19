@@ -72,3 +72,11 @@ Al iniciar la aplicación, se conectará automáticamente a la API backend y pod
 ## Prueba de la Aplicación
 
 Visita http://localhost:3001 en tu navegador para interactuar con la aplicación y ver las noticias gestionadas a través de la API.
+
+## Decisiones de Diseño
+
+-Uso de Context API: Se eligió la Context API para manejar el estado global de la aplicación, lo cual es ideal para una aplicación pequeña. Esto facilita la gestión de componentes como snacks y loaders.
+
+-Diseño Visual: Se optó por implementar un diseño en formato de cards con imágenes y más campos, creando un sitio visualmente atractivo y mejorando la experiencia del usuario.
+
+-Modo Nocturno: Se aprovechó la oportunidad para incluir un modo nocturno, un elemento que siempre había querido implementar, ofreciendo a los usuarios una opción más cómoda para la lectura en entornos oscuros.
