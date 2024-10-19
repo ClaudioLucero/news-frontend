@@ -44,7 +44,7 @@ export const AppProvider = ({ children }) => {
 
     try {
       const response = await axios.get(`${API}/news`);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+
       const data = response.data;
 
       if (Array.isArray(data)) {
