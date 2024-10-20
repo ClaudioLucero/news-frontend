@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAppContext } from '../context/AppContext';
 import NewsList from './NewsList';
 import NewsForm from './NewsForm';
-import AddCircleSharpIcon from '@mui/icons-material/AddCircleSharp'; // Importamos el ícono
+import AddCircleSharpIcon from '@mui/icons-material/AddCircleSharp';
 import '../styles/components/mainContent.scss';
 
 const MainContent = () => {
@@ -19,16 +19,9 @@ const MainContent = () => {
     setEditingNews(null);
   };
 
-  const handleAddOrEditNews = (newData) => {
-    if (editingNews) {
-      console.log('Editar noticia:', newData);
-    } else {
-      console.log('Agregar nueva noticia:', newData);
-    }
-  };
-
   return (
     <div className={`main-content ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
+      {/* List de News */}
       <NewsList setEditingNews={setEditingNews} openModal={openModal} />
 
       {/* Botón flotante */}
@@ -43,11 +36,7 @@ const MainContent = () => {
       </button>
 
       {isModalOpen && (
-        <NewsForm
-          initialData={editingNews || {}}
-          onSubmit={handleAddOrEditNews}
-          onClose={closeModal}
-        />
+        <NewsForm initialData={editingNews || {}} onClose={closeModal} />
       )}
     </div>
   );

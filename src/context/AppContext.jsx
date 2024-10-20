@@ -1,66 +1,53 @@
+// src/context/AppContext.jsx
 import React, { createContext, useContext, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { Snackbar } from '@mui/material'; // Asegúrate de importar desde @mui/material
+import SnackbarNotification from '../components/SnackbarNotification';
 
-// Crea el contexto
 const AppContext = createContext();
 const API = process.env.REACT_APP_API_NEWS;
 
-// Crea un proveedor de contexto
 export const AppProvider = ({ children }) => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Estado para manejar el Snackbar
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: '',
-    severity: 'success'
+    severity: 'success',
   });
 
-  // Función para mostrar el Snackbar
   const showSnackbar = (message, severity = 'success') => {
     setSnackbar({ open: true, message, severity });
   };
 
-  // Función para cerrar el Snackbar
   const handleCloseSnackbar = () => {
     setSnackbar({ ...snackbar, open: false });
   };
 
-  // Función para alternar el modo oscuro
   const toggleMode = () => {
     setIsDarkMode((prevMode) => !prevMode);
   };
 
-  // Función para obtener noticias
-  // Función para obtener noticias
   const fetchNews = useCallback(async () => {
     setLoading(true);
     setError(null);
 
     try {
       const response = await axios.get(`${API}/news`);
-
       const data = response.data;
 
       if (Array.isArray(data)) {
         setNews(data);
-        if (data.length === 0) {
-          showSnackbar('No hay noticias para mostrar', 'info'); // Mensaje si no hay noticias
-        } else {
-          showSnackbar('Noticias obtenidas exitosamente');
-        }
+        showSnackbar(data.length === 0 ? 'No hay noticias para mostrar' : 'Noticias obtenidas exitosamente');
       } else {
-        setError('Unexpected data format');
+        setError('Formato de datos inesperado');
         showSnackbar('Formato de datos inesperado', 'error');
       }
     } catch (error) {
-      const errorMessage =
-        error.response?.data?.message || 'Error fetching news';
+      const errorMessage = error.response?.data?.message || 'Error fetching news';
       setError(errorMessage);
       showSnackbar(errorMessage, 'error');
     } finally {
@@ -68,7 +55,7 @@ export const AppProvider = ({ children }) => {
     }
   }, []);
 
-  // Función para añadir noticia
+  // Funciones para añadir, editar y eliminar noticias
   const addNews = async (newNews) => {
     setLoading(true);
     setError(null);
@@ -87,7 +74,6 @@ export const AppProvider = ({ children }) => {
     }
   };
 
-  // Función para editar noticia
   const editNews = async (id, updatedNews) => {
     setLoading(true);
     setError(null);
@@ -101,8 +87,7 @@ export const AppProvider = ({ children }) => {
       showSnackbar('Noticia editada exitosamente');
       return true;
     } catch (error) {
-      const errorMessage =
-        error.response?.data?.message || 'Error updating news';
+      const errorMessage = error.response?.data?.message || 'Error updating news';
       setError(errorMessage);
       showSnackbar(errorMessage, 'error');
       return false;
@@ -111,7 +96,6 @@ export const AppProvider = ({ children }) => {
     }
   };
 
-  // Función para eliminar noticia
   const deleteNews = async (id) => {
     setLoading(true);
     setError(null);
@@ -121,8 +105,7 @@ export const AppProvider = ({ children }) => {
       showSnackbar('Noticia eliminada exitosamente');
       return true;
     } catch (error) {
-      const errorMessage =
-        error.response?.data?.message || 'Error deleting news';
+      const errorMessage = error.response?.data?.message || 'Error deleting news';
       setError(errorMessage);
       showSnackbar(errorMessage, 'error');
       return false;
@@ -142,29 +125,22 @@ export const AppProvider = ({ children }) => {
         editNews,
         deleteNews,
         loading,
-        error
+        error,
       }}
     >
       {children}
-
-      {/* Renderiza el Snackbar */}
-      <Snackbar
+      <SnackbarNotification
         open={snackbar.open}
-        autoHideDuration={3000}
-        onClose={handleCloseSnackbar}
         message={snackbar.message}
-        severity={snackbar.severity} // Esto necesita ser estilizado por Material UI
+        severity={snackbar.severity}
+        onClose={handleCloseSnackbar}
       />
     </AppContext.Provider>
   );
 };
 
-// Valida las props con PropTypes
 AppProvider.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 };
 
-// Crea un hook para usar el contexto
-export const useAppContext = () => {
-  return useContext(AppContext);
-};
+export const useAppContext = () => useContext(AppContext);

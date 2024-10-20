@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import '../styles/components/newsForm.scss';
-import Loader from './Loader'; // Importa el componente de carga
+import Loader from './Loader';
 import { useAppContext } from '../context/AppContext';
 import CloseIcon from '@mui/icons-material/Close';
 

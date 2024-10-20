@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { useAppContext } from '../context/AppContext';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import NewsForm from './NewsForm'; // Importa el componente NewsForm
+import NewsForm from './NewsForm';
 import ConfirmationDialog from './ConfirmationDialog';
-import '../styles/components/card.scss'; // Asegúrate de crear e importar los estilos
+import '../styles/components/card.scss';
 
 const Card = ({ newsItem }) => {
   const { isDarkMode, deleteNews } = useAppContext(); // Obtiene el estado del contexto

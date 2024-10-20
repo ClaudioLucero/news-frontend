@@ -43,11 +43,11 @@ npm start
 ## Estructura del Proyecto
 
 ```bash│
-├── public/         # Archivos estáticos y el HTML principal
-├── src/            # Código fuente de la aplicación
+├── public/          # Archivos estáticos y el HTML principal
+├── src/             # Código fuente de la aplicación
 │   ├── components/  # Componentes reutilizables
-│   ├── pages/       # Páginas de la aplicación
-│   ├── services/    # Servicios para manejar llamadas a la API
+│   ├── context/     # Estado Global
+|   ├── styles/      # Estilos
 │   ├── App.js       # Componente principal de la aplicación
 │   ├── index.js     # Punto de entrada de la aplicación
 └── package.json     # Dependencias del proyecto
