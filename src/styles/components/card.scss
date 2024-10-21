@@ -66,17 +66,21 @@
     .title {
       font-size: 1.5rem;
       margin: 5px 0;
-      flex-shrink: 0; // Evita que el título se comprima
+      flex-shrink: 0;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2; // Limita a 2 líneas de texto
+      overflow: hidden; // Oculta el texto que excede
     }
 
     .description {
       font-size: 1rem;
       margin: 5px 0;
-      flex-grow: 1; // La descripción puede crecer, pero tiene un límite
+      flex-grow: 1;
       overflow: hidden;
       text-overflow: ellipsis;
       display: -webkit-box;
-      -webkit-line-clamp: 3; // Limita a 3 líneas de texto
+      -webkit-line-clamp: 2; // Limita a 2 líneas de texto
       -webkit-box-orient: vertical;
     }
 
