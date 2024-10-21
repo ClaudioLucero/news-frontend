@@ -54,18 +54,22 @@ const NewsForm = ({ initialData = {}, onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (initialData._id) {
-      // Si hay un ID, es una edición
-      const success = await editNews(initialData._id, formData);
-      if (success) {
-        onClose(); // Cerrar el formulario después de editar
+    try {
+      if (initialData._id) {
+        // Si hay un ID, es una edición
+        const success = await editNews(initialData._id, formData);
+        if (success) {
+          onClose(); // Cerrar el formulario después de editar
+        }
+      } else {
+        // Si no hay ID, es una nueva noticia
+        const success = await addNews(formData);
+        if (success) {
+          onClose(); // Cerrar el formulario después de agregar
+        }
       }
-    } else {
-      // Si no hay ID, es una nueva noticia
-      const success = await addNews(formData);
-      if (success) {
-        onClose(); // Cerrar el formulario después de agregar
-      }
+    } catch (error) {
+      console.error('Error al guardar:', error);
     }
   };
 

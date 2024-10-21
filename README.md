@@ -4,7 +4,7 @@ Este proyecto es la aplicación frontend para gestionar y visualizar noticias. E
 
 ## Requisitos
 
-- Node.js v14+
+- Node.js v19+
 - npm o Yarn
 - (Opcional) Docker para ejecutar la aplicación junto con el backend
 

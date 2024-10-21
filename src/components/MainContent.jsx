@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { useAppContext } from '../context/AppContext';
 import NewsList from './NewsList';
 import NewsForm from './NewsForm';
+import Loader from './Loader';
 import AddCircleSharpIcon from '@mui/icons-material/AddCircleSharp';
 import '../styles/components/mainContent.scss';
 
 const MainContent = () => {
-  const { isDarkMode } = useAppContext();
+  const { isDarkMode, loading } = useAppContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingNews, setEditingNews] = useState(null);
 
@@ -21,6 +22,8 @@ const MainContent = () => {
 
   return (
     <div className={`main-content ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
+      {/* Loader */}
+      {loading && <Loader />}
       {/* List de News */}
       <NewsList setEditingNews={setEditingNews} openModal={openModal} />
 

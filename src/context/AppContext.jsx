@@ -68,29 +68,25 @@ export const AppProvider = ({ children }) => {
     }
   }, []);
 
-  // Función para añadir una noticia
+  // Modificaciones en addNews, editNews, deleteNews en AppContext
   const addNews = async (newNews) => {
-    setLoading(true);
-    setError(null);
+    setLoading(true);  // Mostrar loader
     try {
       const response = await axios.post(`${API}/news`, newNews);
-      setNews((prevNews) => [...prevNews, response.data]); // Añadir la nueva noticia al estado
+      setNews((prevNews) => [...prevNews, response.data]);
       showSnackbar('Noticia guardada exitosamente');
-      return true;
+      return true; // Devolver true si la noticia fue agregada exitosamente
     } catch (error) {
-      const errorMessage = error.response?.data?.message || 'Error adding news';
-      setError(errorMessage);
-      showSnackbar(errorMessage, 'error');
-      return false;
+      showSnackbar('Error al agregar noticia', 'error');
+      return false; // Devolver false si hubo un error
     } finally {
-      setLoading(false);
+      setLoading(false);  // Ocultar loader
     }
   };
 
-  // Función para editar una noticia existente
+
   const editNews = async (id, updatedNews) => {
     setLoading(true);
-    setError(null);
     try {
       const response = await axios.put(`${API}/news/${id}`, updatedNews);
       setNews((prevNews) =>
@@ -99,35 +95,29 @@ export const AppProvider = ({ children }) => {
         )
       );
       showSnackbar('Noticia editada exitosamente');
-      return true;
+      return true; // Devolver true si la edición fue exitosa
     } catch (error) {
-      const errorMessage = error.response?.data?.message || 'Error updating news';
-      setError(errorMessage);
-      showSnackbar(errorMessage, 'error');
-      return false;
+      showSnackbar('Error al editar noticia', 'error');
+      return false; // Devolver false si hubo un error
     } finally {
       setLoading(false);
     }
   };
 
-  // Función para eliminar una noticia
+
   const deleteNews = async (id) => {
     setLoading(true);
-    setError(null);
     try {
       await axios.delete(`${API}/news/${id}`);
       setNews((prevNews) => prevNews.filter((newsItem) => newsItem._id !== id));
       showSnackbar('Noticia eliminada exitosamente');
-      return true;
     } catch (error) {
-      const errorMessage = error.response?.data?.message || 'Error deleting news';
-      setError(errorMessage);
-      showSnackbar(errorMessage, 'error');
-      return false;
+      showSnackbar('Error al eliminar noticia', 'error');
     } finally {
       setLoading(false);
     }
   };
+
 
   return (
     <AppContext.Provider
