@@ -1,13 +1,12 @@
-// src/components/Loader.jsx
 import React from 'react';
-import HourglassBottomIcon from '@mui/icons-material/HourglassBottom';
-import '../styles/components/loader.scss'; // Asegúrate de importar el archivo SCSS
+import CircularProgress from '@mui/material/CircularProgress';
+import '..//styles/components/loader.scss';
 
 const Loader = () => {
   return (
     <div className="loader-overlay">
       <div className="loader">
-        <HourglassBottomIcon fontSize="large" />
+        <CircularProgress color="inherit" size={100} />
       </div>
     </div>
   );

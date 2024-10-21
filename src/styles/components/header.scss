@@ -1,12 +1,12 @@
 // src/styles/components/header.scss
-@import "../_variables.scss"; // Importa las variables
+@import "../_variables.scss";
 
 .header {
   position: fixed; // Fija el header en la parte superior
   top: 0; // Coloca el header en la parte superior de la ventana
   left: 0; // Alinea el header a la izquierda
   right: 0; // Alinea el header a la derecha
-  z-index: 1000; // Asegúrate de que el header esté por encima de otros elementos
+  z-index: 1000; // Asegura de que el header esté por encima de otros elementos
   display: flex;
   align-items: center; // Centra verticalmente los elementos
   padding: 1rem;

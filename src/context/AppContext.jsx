@@ -4,33 +4,44 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import SnackbarNotification from '../components/SnackbarNotification';
 
+// Crear el contexto de la aplicación
 const AppContext = createContext();
 const API = process.env.REACT_APP_API_NEWS;
 
+
 export const AppProvider = ({ children }) => {
+  // Estado para el modo oscuro
   const [isDarkMode, setIsDarkMode] = useState(false);
+  // Estado para almacenar las noticias
   const [news, setNews] = useState([]);
+  // Estado para manejar la carga de datos
   const [loading, setLoading] = useState(false);
+  // Estado para manejar errores
   const [error, setError] = useState(null);
 
+  // Estado para el Snackbar que muestra mensajes al usuario
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: '',
     severity: 'success',
   });
 
+  // Función para mostrar el Snackbar
   const showSnackbar = (message, severity = 'success') => {
     setSnackbar({ open: true, message, severity });
   };
 
+  // Función para cerrar el Snackbar
   const handleCloseSnackbar = () => {
     setSnackbar({ ...snackbar, open: false });
   };
 
+  // Función para alternar el modo oscuro
   const toggleMode = () => {
     setIsDarkMode((prevMode) => !prevMode);
   };
 
+  // Función para obtener noticias
   const fetchNews = useCallback(async () => {
     setLoading(true);
     setError(null);
@@ -39,8 +50,10 @@ export const AppProvider = ({ children }) => {
       const response = await axios.get(`${API}/news`);
       const data = response.data;
 
+      // Verificar si los datos son un array
       if (Array.isArray(data)) {
         setNews(data);
+        // Mostrar un mensaje según el número de noticias
         showSnackbar(data.length === 0 ? 'No hay noticias para mostrar' : 'Noticias obtenidas exitosamente');
       } else {
         setError('Formato de datos inesperado');
@@ -55,13 +68,13 @@ export const AppProvider = ({ children }) => {
     }
   }, []);
 
-  // Funciones para añadir, editar y eliminar noticias
+  // Función para añadir una noticia
   const addNews = async (newNews) => {
     setLoading(true);
     setError(null);
     try {
       const response = await axios.post(`${API}/news`, newNews);
-      setNews((prevNews) => [...prevNews, response.data]);
+      setNews((prevNews) => [...prevNews, response.data]); // Añadir la nueva noticia al estado
       showSnackbar('Noticia guardada exitosamente');
       return true;
     } catch (error) {
@@ -74,6 +87,7 @@ export const AppProvider = ({ children }) => {
     }
   };
 
+  // Función para editar una noticia existente
   const editNews = async (id, updatedNews) => {
     setLoading(true);
     setError(null);
@@ -96,6 +110,7 @@ export const AppProvider = ({ children }) => {
     }
   };
 
+  // Función para eliminar una noticia
   const deleteNews = async (id) => {
     setLoading(true);
     setError(null);
@@ -139,8 +154,10 @@ export const AppProvider = ({ children }) => {
   );
 };
 
+// Validar las propiedades del proveedor
 AppProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
+// Hook para usar el contexto en otros componentes
 export const useAppContext = () => useContext(AppContext);
