@@ -17,8 +17,10 @@ const NewsForm = ({ initialData = {}, onClose }) => {
     imageUrl: ''
   });
 
+  const [formErrors, setFormErrors] = useState({});
   const categories = process.env.REACT_APP_NEWS_CATEGORIES.split(','); // Obtener las categorías del .env
   const formRef = useRef(null);
+  const URL_REGEX = /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+(\.[a-zA-Z]{2,})+\/?.*$/; // Expresión regular para validar URL
 
   // Cargar los datos iniciales si los hay (para editar)
   useEffect(() => {
@@ -54,6 +56,19 @@ const NewsForm = ({ initialData = {}, onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let errors = {};
+
+    // Validación de la URL si está presente
+    if (formData.imageUrl && !URL_REGEX.test(formData.imageUrl)) {
+      errors.imageUrl = 'URL de imagen no es válida';
+    }
+
+    // Si hay errores, no enviar el formulario
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+      return;
+    }
+
     try {
       if (initialData._id) {
         // Si hay un ID, es una edición
@@ -156,6 +171,7 @@ const NewsForm = ({ initialData = {}, onClose }) => {
             value={formData.imageUrl}
             onChange={handleChange}
           />
+          {formErrors.imageUrl && <p className="error-message">{formErrors.imageUrl}</p>} {/* Mensaje de error */}
 
           <button type="submit" disabled={loading}>
             {initialData._id ? 'Guardar Cambios' : 'Agregar Noticia'}

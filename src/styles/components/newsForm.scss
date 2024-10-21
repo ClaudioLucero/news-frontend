@@ -159,4 +159,10 @@
       color: darken($light-text, 10%);
     }
   }
+  .error-message {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: -9px;
+    margin-bottom: 11px;
+  }
 }
