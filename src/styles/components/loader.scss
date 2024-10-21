@@ -1,4 +1,6 @@
-@import "../variables.scss";
+// src/styles/Loader.scss
+@import "../variables.scss"; // Importa tus variables de colores
+
 .loader-overlay {
   position: fixed;
   top: 0;
@@ -12,16 +14,5 @@
 }
 
 .loader {
-  color: $primary-color; // Cambia el color del ícono dependiendo del tema
-  animation: spin 3s linear infinite; // Añadir animación de rotación
-}
-
-// Animación para la rueda
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  color: $light-text; // Cambia el color del ícono dependiendo del tema
 }
