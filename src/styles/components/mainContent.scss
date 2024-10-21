@@ -3,7 +3,7 @@
 .main-content {
   flex: 1; // Permite que MainContent crezca
   padding: 20px;
-  min-height: 100vh; // Asegura que el fondo cubra al menos el 100% de la altura de la pantalla
+  // min-height: 100vh; // Asegura que el fondo cubra al menos el 100% de la altura de la pantalla
   background-color: $light-background;
   transition:
     background-color 0.3s ease,
