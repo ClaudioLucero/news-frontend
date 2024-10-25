@@ -38,7 +38,7 @@ export const AppProvider = ({ children }) => {
 
   // Función para obtener noticias
   const fetchNews = useCallback(
-    async (page = 1, limit = 5, sort = 'date', category = '') => {
+    async (page = 1, limit = 8, sort = 'date', category = '') => {
       setLoading(true);
       setError(null);
 
@@ -80,16 +80,19 @@ export const AppProvider = ({ children }) => {
   const addNews = async (newNews) => {
     setLoading(true);
     try {
-      const response = await axios.post(`${API}/news`, newNews, {
+      await axios.post(`${API}/news`, newNews, {
         headers: {
           'x-api-key': API_KEY // Incluir la API Key en el header
         }
       });
-      setNews((prevNews) => [...prevNews, response.data]);
+
+      // Llama a fetchNews para obtener la lista actualizada
+      await fetchNews(currentPage); // Mantiene la misma página actual
+
       showSnackbar('Noticia guardada exitosamente');
       return true;
     } catch (error) {
-      const errorMessage = error?.message || 'Error fetching news';
+      const errorMessage = error?.message || 'Error al guardar la noticia';
       setError(errorMessage);
       showSnackbar(errorMessage, 'error');
       return false;
@@ -123,6 +126,10 @@ export const AppProvider = ({ children }) => {
     }
   };
 
+  // src/context/AppContext.jsx
+
+  // ... tu código existente ...
+
   const deleteNews = async (id) => {
     setLoading(true);
     try {
@@ -131,16 +138,36 @@ export const AppProvider = ({ children }) => {
           'x-api-key': API_KEY // Incluir la API Key en el header
         }
       });
+
+      // Actualiza el estado de las noticias
       setNews((prevNews) => prevNews.filter((newsItem) => newsItem._id !== id));
+
+      // Actualiza el total de noticias y páginas
+      const updatedTotal = total - 1; // Decrementa el total
+      setTotal(updatedTotal); // Actualiza el total
+
+      // Calcula el nuevo total de páginas
+      const updatedTotalPages = Math.ceil(updatedTotal / 10); // 10 es el límite por página
+      setTotalPages(updatedTotalPages);
+
+      // Verifica si la página actual es válida
+      if (currentPage > updatedTotalPages && updatedTotalPages > 0) {
+        setCurrentPage(updatedTotalPages); // Si no es válida, ajusta a la última página
+      } else if (updatedTotalPages === 0) {
+        setCurrentPage(1); // Si no hay páginas, resetea a la primera
+      }
+
       showSnackbar('Noticia eliminada exitosamente');
     } catch (error) {
-      const errorMessage = error?.message || 'Error dellete';
+      const errorMessage = error?.message || 'Error delete';
       setError(errorMessage);
       showSnackbar(errorMessage, 'error');
     } finally {
       setLoading(false);
     }
   };
+
+
 
   return (
     <AppContext.Provider
