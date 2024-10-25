@@ -7,7 +7,11 @@
   justify-content: center;
   align-items: center;
   padding: 10px;
-  margin-top: 20px;
+  position: fixed; // Cambiado a fixed
+  bottom: 0; // Ubicado en la parte inferior
+  left: 0;
+  right: 0; // Se extiende a ambos lados
+  margin-top: 20px; // Puedes eliminar o ajustar según sea necesario
 
   &.light-mode {
     background-color: $light-pagination-background;
