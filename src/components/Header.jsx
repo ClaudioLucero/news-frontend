@@ -11,7 +11,7 @@ const Header = () => {
 
   return (
     <header className={`header ${isDarkMode ? 'dark' : 'light'}`}>
-      <h1 className="title">NewsApp</h1>{' '}
+      <h1 className="title">NewsddApp</h1>{' '}
       <div className="mode-toggle">
         <Switch
           checked={isDarkMode}

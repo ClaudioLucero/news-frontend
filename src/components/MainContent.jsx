@@ -1,9 +1,11 @@
+// src/components/MainContent.jsx
 import React, { useState } from 'react';
 import { useAppContext } from '../context/AppContext';
 import NewsList from './NewsList';
 import NewsForm from './NewsForm';
 import Loader from './Loader';
 import AddCircleSharpIcon from '@mui/icons-material/AddCircleSharp';
+import Pagination from './Pagination'; // Importa el componente de paginación
 import '../styles/components/mainContent.scss';
 
 const MainContent = () => {
@@ -24,8 +26,11 @@ const MainContent = () => {
     <div className={`main-content ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
       {/* Loader */}
       {loading && <Loader />}
-      {/* List de News */}
+      {/* Lista de Noticias */}
       <NewsList setEditingNews={setEditingNews} openModal={openModal} />
+
+      {/* Paginador */}
+      <Pagination />
 
       {/* Botón flotante */}
       <button

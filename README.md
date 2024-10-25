@@ -33,6 +33,7 @@ Este proyecto utiliza las siguientes librerías:
 PORT=3001
 REACT_APP_API_NEWS=http://localhost:3000/api
 REACT_APP_NEWS_CATEGORIES=Technology,Health,Sports,Entertainment
+REACT_APP_API_KEY=abc123xyz
 ```
 
 ### 3. Ejecución Modo local

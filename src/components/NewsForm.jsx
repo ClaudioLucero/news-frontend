@@ -20,7 +20,8 @@ const NewsForm = ({ initialData = {}, onClose }) => {
   const [formErrors, setFormErrors] = useState({});
   const categories = process.env.REACT_APP_NEWS_CATEGORIES.split(','); // Obtener las categorías del .env
   const formRef = useRef(null);
-  const URL_REGEX = /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+(\.[a-zA-Z]{2,})+\/?.*$/; // Expresión regular para validar URL
+  const URL_REGEX =
+    /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+(\.[a-zA-Z]{2,})+\/?.*$/; // Expresión regular para validar URL
   const AUTHOR_REGEX = /^[A-Za-z]+(?:\s[A-Za-z]+)+$/; // Expresión regular para validar nombre y apellido
 
   // Cargar los datos iniciales si los hay (para editar)
@@ -119,7 +120,6 @@ const NewsForm = ({ initialData = {}, onClose }) => {
             }}
           />
           <h2>{initialData._id ? 'Editar Noticia' : 'Agregar Noticia'}</h2>
-
           <label htmlFor="title">Título:</label>
           <input
             type="text"
@@ -129,7 +129,6 @@ const NewsForm = ({ initialData = {}, onClose }) => {
             onChange={handleChange}
             required
           />
-
           <label htmlFor="description">Descripción:</label>
           <textarea
             id="description"
@@ -142,7 +141,6 @@ const NewsForm = ({ initialData = {}, onClose }) => {
           <div className="limit-description">
             {`${formData.description.length}/${MAX_DESCRIPTION_LENGTH} caracteres`}
           </div>
-
           <label htmlFor="category">Categoría:</label>
           <select
             id="category"
@@ -158,7 +156,6 @@ const NewsForm = ({ initialData = {}, onClose }) => {
               </option>
             ))}
           </select>
-
           <label htmlFor="author">Autor:</label>
           <input
             type="text"
@@ -168,8 +165,10 @@ const NewsForm = ({ initialData = {}, onClose }) => {
             onChange={handleChange}
             required
           />
-          {formErrors.author && <p className="error-message">{formErrors.author}</p>} {/* Mensaje de error */}
-
+          {formErrors.author && (
+            <p className="error-message">{formErrors.author}</p>
+          )}{' '}
+          {/* Mensaje de error */}
           <label htmlFor="imageUrl">URL de Imagen:</label>
           <input
             type="text"
@@ -178,8 +177,10 @@ const NewsForm = ({ initialData = {}, onClose }) => {
             value={formData.imageUrl}
             onChange={handleChange}
           />
-          {formErrors.imageUrl && <p className="error">{formErrors.imageUrl}</p>} {/* Mensaje de error */}
-
+          {formErrors.imageUrl && (
+            <p className="error">{formErrors.imageUrl}</p>
+          )}{' '}
+          {/* Mensaje de error */}
           <button type="submit" disabled={loading}>
             {initialData._id ? 'Guardar Cambios' : 'Agregar Noticia'}
           </button>

@@ -14,11 +14,14 @@ export const AppProvider = ({ children }) => {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [total, setTotal] = useState(0); // Total de noticias
+  const [totalPages, setTotalPages] = useState(0); // Total de páginas
+  const [currentPage, setCurrentPage] = useState(1); // Página actual
 
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: '',
-    severity: 'success',
+    severity: 'success'
   });
 
   const showSnackbar = (message, severity = 'success') => {
@@ -34,33 +37,45 @@ export const AppProvider = ({ children }) => {
   };
 
   // Función para obtener noticias
-  const fetchNews = useCallback(async () => {
-    setLoading(true);
-    setError(null);
+  const fetchNews = useCallback(
+    async (page = 1, limit = 5, sort = 'date', category = '') => {
+      setLoading(true);
+      setError(null);
 
-    try {
-      const response = await axios.get(`${API}/news`, {
-        headers: {
-          'x-api-key': API_KEY // Incluir la API Key en el header
+      try {
+        const response = await axios.get(`${API}/news`, {
+          headers: {
+            'x-api-key': API_KEY
+          },
+          params: { page, limit, sort, category }
+        });
+
+        const { data, total, totalPages, currentPage } = response.data;
+
+        if (Array.isArray(data)) {
+          setNews(data);
+          setTotal(total);
+          setTotalPages(totalPages);
+          setCurrentPage(currentPage);
+          showSnackbar(
+            data.length === 0
+              ? 'No hay noticias para mostrar'
+              : 'Noticias obtenidas exitosamente'
+          );
+        } else {
+          setError('Formato de datos inesperado');
+          showSnackbar('Formato de datos inesperado', 'error');
         }
-      });
-      const data = response.data;
-
-      if (Array.isArray(data)) {
-        setNews(data);
-        showSnackbar(data.length === 0 ? 'No hay noticias para mostrar' : 'Noticias obtenidas exitosamente');
-      } else {
-        setError('Formato de datos inesperado');
-        showSnackbar('Formato de datos inesperado', 'error');
+      } catch (error) {
+        const errorMessage = error?.message || 'Error fetching news';
+        setError(errorMessage);
+        showSnackbar(errorMessage, 'error');
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      const errorMessage = error.response?.data?.message || 'Error fetching news';
-      setError(errorMessage);
-      showSnackbar(errorMessage, 'error');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+    },
+    []
+  );
 
   const addNews = async (newNews) => {
     setLoading(true);
@@ -74,7 +89,9 @@ export const AppProvider = ({ children }) => {
       showSnackbar('Noticia guardada exitosamente');
       return true;
     } catch (error) {
-      showSnackbar('Error al agregar noticia', 'error');
+      const errorMessage = error?.message || 'Error fetching news';
+      setError(errorMessage);
+      showSnackbar(errorMessage, 'error');
       return false;
     } finally {
       setLoading(false);
@@ -97,7 +114,9 @@ export const AppProvider = ({ children }) => {
       showSnackbar('Noticia editada exitosamente');
       return true;
     } catch (error) {
-      showSnackbar('Error al editar noticia', 'error');
+      const errorMessage = error?.message || 'Error edit';
+      setError(errorMessage);
+      showSnackbar(errorMessage, 'error');
       return false;
     } finally {
       setLoading(false);
@@ -115,7 +134,9 @@ export const AppProvider = ({ children }) => {
       setNews((prevNews) => prevNews.filter((newsItem) => newsItem._id !== id));
       showSnackbar('Noticia eliminada exitosamente');
     } catch (error) {
-      showSnackbar('Error al eliminar noticia', 'error');
+      const errorMessage = error?.message || 'Error dellete';
+      setError(errorMessage);
+      showSnackbar(errorMessage, 'error');
     } finally {
       setLoading(false);
     }
@@ -131,8 +152,11 @@ export const AppProvider = ({ children }) => {
         addNews,
         editNews,
         deleteNews,
+        total,
+        totalPages,
+        currentPage,
         loading,
-        error,
+        error
       }}
     >
       {children}
@@ -147,7 +171,7 @@ export const AppProvider = ({ children }) => {
 };
 
 AppProvider.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired
 };
 
 export const useAppContext = () => useContext(AppContext);
