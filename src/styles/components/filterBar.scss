@@ -9,6 +9,13 @@
   background-color: $light-background;
   transition: background-color 0.3s ease;
   margin-top: 60px;
+  font-family: $font-text;
+
+  // Estilos para modo nocturno
+  &.dark {
+    background-color: $dark-background;
+    color: $dark-text;
+  }
 
   // Ajusta el diseño para pantallas más pequeñas
   @media (max-width: 768px) {
@@ -73,8 +80,20 @@
   font-weight: bold;
   transition: background-color 0.3s ease;
 
+  // Hover para modo claro
   &:hover {
     background-color: rgba(0, 0, 0, 0.1);
+  }
+
+  // Modo nocturno
+  .dark & {
+    background-color: $dark-background;
+    color: $dark-text;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
   }
 
   @media (max-width: 768px) {

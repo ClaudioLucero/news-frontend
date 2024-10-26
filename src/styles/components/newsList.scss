@@ -1,4 +1,5 @@
 @import "../_variables";
+
 .news-list {
   display: grid;
   grid-template-columns: repeat(
@@ -6,6 +7,11 @@
     minmax(250px, 1fr)
   ); // Configura las columnas
   gap: 20px;
+
+  // Estilo para pantallas pequeñas
+  @media (max-width: 768px) {
+    margin-left: 55px;
+  }
 
   .no-news-message {
     text-align: center;

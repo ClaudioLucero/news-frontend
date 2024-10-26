@@ -6,7 +6,7 @@ import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import '../styles/components/filterBar.scss';
 
 const FilterBar = () => {
-    const { fetchNews, currentPage, setSortOrder, sortOrder } = useAppContext();
+    const { fetchNews, currentPage, setSortOrder, sortOrder, isDarkMode } = useAppContext();
 
     const categories = process.env.REACT_APP_NEWS_CATEGORIES.split(',');
     const [selectedCategory, setSelectedCategory] = useState('');
@@ -22,7 +22,7 @@ const FilterBar = () => {
     };
 
     return (
-        <div className="filter-bar">
+        <div className={`filter-bar ${isDarkMode ? 'dark' : 'light'}`}>
             <div className="filter-bar-item">
                 <FilterAltIcon />
                 {categories.map((category) => (
