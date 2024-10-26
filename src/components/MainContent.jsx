@@ -5,7 +5,8 @@ import NewsList from './NewsList';
 import NewsForm from './NewsForm';
 import Loader from './Loader';
 import AddCircleSharpIcon from '@mui/icons-material/AddCircleSharp';
-import Pagination from './Pagination'; // Importa el componente de paginación
+import Pagination from './Pagination';
+import FilterBar from './FilterBar'; // Importa el nuevo componente
 import '../styles/components/mainContent.scss';
 
 const MainContent = () => {
@@ -24,6 +25,9 @@ const MainContent = () => {
 
   return (
     <div className={`main-content ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
+      {/* Barra de filtros */}
+      <FilterBar />
+
       {/* Loader */}
       {loading && <Loader />}
       {/* Lista de Noticias */}

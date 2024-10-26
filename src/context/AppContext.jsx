@@ -17,6 +17,7 @@ export const AppProvider = ({ children }) => {
   const [total, setTotal] = useState(0); // Total de noticias
   const [totalPages, setTotalPages] = useState(0); // Total de páginas
   const [currentPage, setCurrentPage] = useState(1); // Página actual
+  const [sortOrder, setSortOrder] = useState('date_desc'); // Estado para el orden
 
   const [snackbar, setSnackbar] = useState({
     open: false,
@@ -36,9 +37,9 @@ export const AppProvider = ({ children }) => {
     setIsDarkMode((prevMode) => !prevMode);
   };
 
-  // Función para obtener noticias
+  // Función para obtener noticias con filtros
   const fetchNews = useCallback(
-    async (page = 1, limit = 8, sort = 'date', category = '') => {
+    async (page = 1, limit = 8, sort = sortOrder, category = '') => { // sort toma valor de sortOrder
       setLoading(true);
       setError(null);
 
@@ -67,22 +68,23 @@ export const AppProvider = ({ children }) => {
           showSnackbar('Formato de datos inesperado', 'error');
         }
       } catch (error) {
-        const errorMessage = error?.message || 'Error fetching news';
+        const errorMessage = error?.message || 'Error al obtener las noticias';
         setError(errorMessage);
         showSnackbar(errorMessage, 'error');
       } finally {
         setLoading(false);
       }
     },
-    []
+    [sortOrder] // sortOrder como dependencia para recargar cuando cambie
   );
 
+  // Función para añadir noticias
   const addNews = async (newNews) => {
     setLoading(true);
     try {
       await axios.post(`${API}/news`, newNews, {
         headers: {
-          'x-api-key': API_KEY // Incluir la API Key en el header
+          'x-api-key': API_KEY
         }
       });
 
@@ -101,12 +103,13 @@ export const AppProvider = ({ children }) => {
     }
   };
 
+  // Función para editar noticias
   const editNews = async (id, updatedNews) => {
     setLoading(true);
     try {
       const response = await axios.put(`${API}/news/${id}`, updatedNews, {
         headers: {
-          'x-api-key': API_KEY // Incluir la API Key en el header
+          'x-api-key': API_KEY
         }
       });
       setNews((prevNews) =>
@@ -117,7 +120,7 @@ export const AppProvider = ({ children }) => {
       showSnackbar('Noticia editada exitosamente');
       return true;
     } catch (error) {
-      const errorMessage = error?.message || 'Error edit';
+      const errorMessage = error?.message || 'Error al editar la noticia';
       setError(errorMessage);
       showSnackbar(errorMessage, 'error');
       return false;
@@ -126,48 +129,37 @@ export const AppProvider = ({ children }) => {
     }
   };
 
-  // src/context/AppContext.jsx
-
-  // ... tu código existente ...
-
+  // Función para eliminar noticias
   const deleteNews = async (id) => {
     setLoading(true);
     try {
       await axios.delete(`${API}/news/${id}`, {
         headers: {
-          'x-api-key': API_KEY // Incluir la API Key en el header
+          'x-api-key': API_KEY
         }
       });
 
-      // Actualiza el estado de las noticias
       setNews((prevNews) => prevNews.filter((newsItem) => newsItem._id !== id));
-
-      // Actualiza el total de noticias y páginas
-      const updatedTotal = total - 1; // Decrementa el total
-      setTotal(updatedTotal); // Actualiza el total
-
-      // Calcula el nuevo total de páginas
-      const updatedTotalPages = Math.ceil(updatedTotal / 10); // 10 es el límite por página
+      const updatedTotal = total - 1;
+      setTotal(updatedTotal);
+      const updatedTotalPages = Math.ceil(updatedTotal / 10);
       setTotalPages(updatedTotalPages);
 
-      // Verifica si la página actual es válida
       if (currentPage > updatedTotalPages && updatedTotalPages > 0) {
-        setCurrentPage(updatedTotalPages); // Si no es válida, ajusta a la última página
+        setCurrentPage(updatedTotalPages);
       } else if (updatedTotalPages === 0) {
-        setCurrentPage(1); // Si no hay páginas, resetea a la primera
+        setCurrentPage(1);
       }
 
       showSnackbar('Noticia eliminada exitosamente');
     } catch (error) {
-      const errorMessage = error?.message || 'Error delete';
+      const errorMessage = error?.message || 'Error al eliminar la noticia';
       setError(errorMessage);
       showSnackbar(errorMessage, 'error');
     } finally {
       setLoading(false);
     }
   };
-
-
 
   return (
     <AppContext.Provider
@@ -182,6 +174,8 @@ export const AppProvider = ({ children }) => {
         total,
         totalPages,
         currentPage,
+        sortOrder, // Valor de orden
+        setSortOrder, // Función para cambiar el orden
         loading,
         error
       }}

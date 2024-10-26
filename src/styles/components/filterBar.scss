@@ -1,0 +1,84 @@
+// src/styles/components/filterBar.scss
+@import "../_variables.scss";
+
+.filter-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: $light-background;
+  transition: background-color 0.3s ease;
+  margin-top: 60px;
+
+  // Ajusta el diseño para pantallas más pequeñas
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0.5rem;
+  }
+}
+
+.filter-bar-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  span {
+    margin-right: 10px;
+  }
+
+  .filter-button,
+  .sort-button {
+    background-color: transparent;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    padding: 5px 10px;
+    margin: 0 5px;
+    font-weight: bold;
+    border-radius: 5px;
+
+    &.active {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  // Ajustes responsivos para las opciones de filtro y orden
+  @media (max-width: 768px) {
+    flex-direction: column;
+    width: 100%;
+    gap: 0.25rem;
+    .filter-button,
+    .sort-button {
+      width: 100%;
+      margin: 0;
+    }
+  }
+}
+
+// Estilo para el botón de "Limpiar Filtros"
+.clear-filters-button {
+  display: flex;
+  align-items: center;
+  background-color: $light-background;
+  color: $light-text;
+  padding: 5px 10px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    justify-content: center;
+  }
+}

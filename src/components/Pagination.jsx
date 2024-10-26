@@ -4,37 +4,37 @@ import { useAppContext } from '../context/AppContext';
 import '../styles/components/pagination.scss';
 
 const Pagination = () => {
-    const { totalPages, currentPage, fetchNews, isDarkMode } = useAppContext();
+  const { totalPages, currentPage, fetchNews, isDarkMode } = useAppContext();
 
-    const handlePageChange = (page) => {
-        fetchNews(page);
-    };
+  const handlePageChange = (page) => {
+    fetchNews(page);
+  };
 
-    if (totalPages <= 1) return null;
+  if (totalPages <= 1) return null;
 
-    return (
-        <div className={`pagination ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
-            {currentPage > 1 && (
-                <button
-                    className="pagination-button"
-                    onClick={() => handlePageChange(currentPage - 1)}
-                >
-                    Anterior
-                </button>
-            )}
-            <span>
-                Página {currentPage} de {totalPages}
-            </span>
-            {currentPage < totalPages && (
-                <button
-                    className="pagination-button"
-                    onClick={() => handlePageChange(currentPage + 1)}
-                >
-                    Siguiente
-                </button>
-            )}
-        </div>
-    );
+  return (
+    <div className={`pagination ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
+      {currentPage > 1 && (
+        <button
+          className="pagination-button"
+          onClick={() => handlePageChange(currentPage - 1)}
+        >
+          Anterior
+        </button>
+      )}
+      <span>
+        Página {currentPage} de {totalPages}
+      </span>
+      {currentPage < totalPages && (
+        <button
+          className="pagination-button"
+          onClick={() => handlePageChange(currentPage + 1)}
+        >
+          Siguiente
+        </button>
+      )}
+    </div>
+  );
 };
 
 export default Pagination;
