@@ -39,26 +39,26 @@ export const AppProvider = ({ children }) => {
 
   // Función para obtener noticias con filtros
   const fetchNews = useCallback(
-    async (page = 1, limit = 4, sort = sortOrder, category = '') => {
-      // sort toma valor de sortOrder
+    async (page = currentPage, limit = 8, sort = sortOrder, category = '') => {
       setLoading(true);
       setError(null);
 
       try {
         const response = await axios.get(`${API}/news`, {
           headers: {
-            'x-api-key': API_KEY
+            'x-api-key': API_KEY,
           },
-          params: { page, limit, sort, category }
+          params: { page, limit, sort, category },
         });
 
-        const { data, total, totalPages, currentPage } = response.data;
+        const { data, total, totalPages, currentPage: responsePage } = response.data;
 
         if (Array.isArray(data)) {
           setNews(data);
           setTotal(total);
           setTotalPages(totalPages);
-          setCurrentPage(currentPage);
+          setCurrentPage(responsePage); // Actualizar currentPage con el valor de la respuesta
+
           showSnackbar(
             data.length === 0
               ? 'No hay noticias para mostrar'
@@ -76,8 +76,9 @@ export const AppProvider = ({ children }) => {
         setLoading(false);
       }
     },
-    [sortOrder] // sortOrder como dependencia para recargar cuando cambie
+    [sortOrder]
   );
+
 
   // Función para añadir noticias
   const addNews = async (newNews) => {
@@ -143,13 +144,16 @@ export const AppProvider = ({ children }) => {
       setNews((prevNews) => prevNews.filter((newsItem) => newsItem._id !== id));
       const updatedTotal = total - 1;
       setTotal(updatedTotal);
-      const updatedTotalPages = Math.ceil(updatedTotal / 10);
+      const updatedTotalPages = Math.ceil(updatedTotal / 8); // Asegúrate de usar el mismo limit que el de fetchNews
       setTotalPages(updatedTotalPages);
 
+      // Actualizar currentPage si está fuera de rango
       if (currentPage > updatedTotalPages && updatedTotalPages > 0) {
         setCurrentPage(updatedTotalPages);
+        fetchNews(updatedTotalPages); // Cargar noticias de la nueva página
       } else if (updatedTotalPages === 0) {
         setCurrentPage(1);
+        fetchNews(1); // Cargar la primera página si ya no hay noticias
       }
 
       showSnackbar('Noticia eliminada exitosamente');
@@ -161,6 +165,7 @@ export const AppProvider = ({ children }) => {
       setLoading(false);
     }
   };
+
 
   return (
     <AppContext.Provider
@@ -178,6 +183,7 @@ export const AppProvider = ({ children }) => {
         sortOrder, // Valor de orden
         setSortOrder, // Función para cambiar el orden
         loading,
+        setCurrentPage,
         error
       }}
     >
