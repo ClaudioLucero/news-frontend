@@ -60,10 +60,11 @@ const Card = ({ newsItem }) => {
           {/* Íconos de Editar y Eliminar */}
           <div className="card-actions">
             <EditIcon
+              data-testid="EditIcon"
               onClick={handleEdit}
               style={{ cursor: 'pointer', marginRight: '10px' }}
             />
-            <DeleteIcon onClick={handleDelete} style={{ cursor: 'pointer' }} />
+            <DeleteIcon data-testid="DeleteIcon" onClick={handleDelete} style={{ cursor: 'pointer' }} />
           </div>
         </div>
       </div>

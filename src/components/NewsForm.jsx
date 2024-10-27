@@ -18,7 +18,7 @@ const NewsForm = ({ initialData = {}, onClose }) => {
   });
 
   const [formErrors, setFormErrors] = useState({});
-  const categories = process.env.REACT_APP_NEWS_CATEGORIES.split(','); // Obtener las categorías del .env
+  const categories = (process.env.REACT_APP_NEWS_CATEGORIES || '').split(',');
   const formRef = useRef(null);
   const URL_REGEX =
     /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+(\.[a-zA-Z]{2,})+\/?.*$/; // Expresión regular para validar URL

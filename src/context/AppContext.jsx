@@ -39,7 +39,8 @@ export const AppProvider = ({ children }) => {
 
   // Función para obtener noticias con filtros
   const fetchNews = useCallback(
-    async (page = 1, limit = 8, sort = sortOrder, category = '') => { // sort toma valor de sortOrder
+    async (page = 1, limit = 4, sort = sortOrder, category = '') => {
+      // sort toma valor de sortOrder
       setLoading(true);
       setError(null);
 

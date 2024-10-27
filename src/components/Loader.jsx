@@ -6,7 +6,7 @@ import '..//styles/components/loader.scss';
 const Loader = () => {
   return (
     <div className="loader-overlay">
-      <div className="loader">
+      <div className="loader" data-testid="loader">
         <HourglassBottomIcon color="inherit" size={100} />
       </div>
     </div>
