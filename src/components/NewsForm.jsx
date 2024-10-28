@@ -4,6 +4,7 @@ import '../styles/components/newsForm.scss';
 import Loader from './Loader';
 import { useAppContext } from '../context/AppContext';
 import CloseIcon from '@mui/icons-material/Close';
+import HourglassTopIcon from '@mui/icons-material/HourglassTop'; // Importar el ícono
 import { motion } from 'framer-motion';
 
 const MAX_DESCRIPTION_LENGTH = 100;
@@ -73,16 +74,11 @@ const NewsForm = ({ initialData = {}, onClose }) => {
 
     try {
       if (initialData._id) {
-        const success = await editNews(initialData._id, formData);
-        if (success) {
-          onClose();
-        }
+        await editNews(initialData._id, formData);
       } else {
-        const success = await addNews(formData);
-        if (success) {
-          onClose();
-        }
+        await addNews(formData);
       }
+      onClose();
     } catch (error) {
       console.error('Error al guardar:', error);
     }
@@ -183,7 +179,14 @@ const NewsForm = ({ initialData = {}, onClose }) => {
               <p className="error">{formErrors.imageUrl}</p>
             )}
             <button type="submit" disabled={loading}>
-              {initialData._id ? 'Guardar Cambios' : 'Agregar Noticia'}
+              {loading ? ( // Si loading es true, mostrar HourglassTopIcon y deshabilitar el botón
+                <>
+                  <HourglassTopIcon style={{ marginRight: '8px' }} />
+                  {initialData._id ? 'Guardando...' : 'Agregando...'}
+                </>
+              ) : (
+                initialData._id ? 'Guardar Cambios' : 'Agregar Noticia'
+              )}
             </button>
           </form>
         </motion.div>
