@@ -4,6 +4,7 @@ import '../styles/components/newsForm.scss';
 import Loader from './Loader';
 import { useAppContext } from '../context/AppContext';
 import CloseIcon from '@mui/icons-material/Close';
+import { motion } from 'framer-motion';
 
 const MAX_DESCRIPTION_LENGTH = 100; // Definir la longitud máxima de la descripción
 
@@ -108,83 +109,94 @@ const NewsForm = ({ initialData = {}, onClose }) => {
     >
       {loading && <Loader />}
       <div className={`news-form-modal ${isDarkMode ? 'dark' : 'light'}`}>
-        <form className="news-form" onSubmit={handleSubmit} ref={formRef}>
-          <CloseIcon
-            className="close-icon"
-            onClick={onClose}
-            style={{
-              cursor: 'pointer',
-              position: 'absolute',
-              right: '10px',
-              top: '10px'
-            }}
-          />
-          <h2>{initialData._id ? 'Editar Noticia' : 'Agregar Noticia'}</h2>
-          <label htmlFor="title">Título:</label>
-          <input
-            type="text"
-            id="title"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-            required
-          />
-          <label htmlFor="description">Descripción:</label>
-          <textarea
-            id="description"
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            required
-            maxLength={MAX_DESCRIPTION_LENGTH} // Limitar longitud
-          />
-          <div className="limit-description">
-            {`${formData.description.length}/${MAX_DESCRIPTION_LENGTH} caracteres`}
-          </div>
-          <label htmlFor="category">Categoría:</label>
-          <select
-            id="category"
-            name="category"
-            value={formData.category}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Seleccionar categoría</option>
-            {categories.map((category) => (
-              <option key={category} value={category}>
-                {category}
-              </option>
-            ))}
-          </select>
-          <label htmlFor="author">Autor:</label>
-          <input
-            type="text"
-            id="author"
-            name="author"
-            value={formData.author}
-            onChange={handleChange}
-            required
-          />
-          {formErrors.author && (
-            <p className="error-message">{formErrors.author}</p>
-          )}{' '}
-          {/* Mensaje de error */}
-          <label htmlFor="imageUrl">URL de Imagen:</label>
-          <input
-            type="text"
-            id="imageUrl"
-            name="imageUrl"
-            value={formData.imageUrl}
-            onChange={handleChange}
-          />
-          {formErrors.imageUrl && (
-            <p className="error">{formErrors.imageUrl}</p>
-          )}{' '}
-          {/* Mensaje de error */}
-          <button type="submit" disabled={loading}>
-            {initialData._id ? 'Guardar Cambios' : 'Agregar Noticia'}
-          </button>
-        </form>
+        <motion.div
+          className={`news-form-modal ${isDarkMode ? 'dark' : 'light'}`}
+          initial={{ scale: 0 }}
+          animate={{ rotate: 360, scale: 1 }}
+          transition={{
+            type: "spring",
+            stiffness: 100,
+            damping: 30
+          }}
+        >
+          <form className="news-form" onSubmit={handleSubmit} ref={formRef}>
+            <CloseIcon
+              className="close-icon"
+              onClick={onClose}
+              style={{
+                cursor: 'pointer',
+                position: 'absolute',
+                right: '10px',
+                top: '10px'
+              }}
+            />
+            <h2>{initialData._id ? 'Editar Noticia' : 'Agregar Noticia'}</h2>
+            <label htmlFor="title">Título:</label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+              required
+            />
+            <label htmlFor="description">Descripción:</label>
+            <textarea
+              id="description"
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              required
+              maxLength={MAX_DESCRIPTION_LENGTH} // Limitar longitud
+            />
+            <div className="limit-description">
+              {`${formData.description.length}/${MAX_DESCRIPTION_LENGTH} caracteres`}
+            </div>
+            <label htmlFor="category">Categoría:</label>
+            <select
+              id="category"
+              name="category"
+              value={formData.category}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Seleccionar categoría</option>
+              {categories.map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
+            <label htmlFor="author">Autor:</label>
+            <input
+              type="text"
+              id="author"
+              name="author"
+              value={formData.author}
+              onChange={handleChange}
+              required
+            />
+            {formErrors.author && (
+              <p className="error-message">{formErrors.author}</p>
+            )}{' '}
+            {/* Mensaje de error */}
+            <label htmlFor="imageUrl">URL de Imagen:</label>
+            <input
+              type="text"
+              id="imageUrl"
+              name="imageUrl"
+              value={formData.imageUrl}
+              onChange={handleChange}
+            />
+            {formErrors.imageUrl && (
+              <p className="error">{formErrors.imageUrl}</p>
+            )}{' '}
+            {/* Mensaje de error */}
+            <button type="submit" disabled={loading}>
+              {initialData._id ? 'Guardar Cambios' : 'Agregar Noticia'}
+            </button>
+          </form>
+        </motion.div>
       </div>
     </div>
   );
