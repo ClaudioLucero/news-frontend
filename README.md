@@ -81,3 +81,22 @@ Visita http://localhost:3001 en tu navegador para interactuar con la aplicación
 -Diseño Visual: Se optó por implementar un diseño en formato de cards con imágenes y más campos, creando un sitio visualmente atractivo y mejorando la experiencia del usuario.
 
 -Modo Nocturno: Se aprovechó la oportunidad para incluir un modo nocturno, un elemento que siempre había querido implementar, ofreciendo a los usuarios una opción más cómoda para la lectura en entornos oscuros.
+
+## Versión 2
+
+- Utilización clave API: REACT_APP_API_KEY=abc123xyz
+- Implementación de paginación.
+- Implementación de filtros: Por categorías y más recientes/más antiguos.
+- Framer Motion: Para mostrar formulario.
+- Testing de componentes.
+
+Desplegado en Vercel:
+https://news-frontend-alpha.vercel.app/
+
+## Consideraciones a Mejorar para una V3
+
+- Testing más profundo.
+- Mejorar cómo se está usando el loader y llamando desde varios componentes.
+- Optimizar rendimiento.
+- Llamados a la API cuando realmente sea necesario en relación al paginador, evaluar uso de react-cache.
+- Implementar un buscador por títulos.
