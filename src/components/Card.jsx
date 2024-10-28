@@ -64,7 +64,11 @@ const Card = ({ newsItem }) => {
               onClick={handleEdit}
               style={{ cursor: 'pointer', marginRight: '10px' }}
             />
-            <DeleteIcon data-testid="DeleteIcon" onClick={handleDelete} style={{ cursor: 'pointer' }} />
+            <DeleteIcon
+              data-testid="DeleteIcon"
+              onClick={handleDelete}
+              style={{ cursor: 'pointer' }}
+            />
           </div>
         </div>
       </div>

@@ -54,7 +54,11 @@ const FilterBar = () => {
 
       {/* Botón para limpiar filtros */}
       <div className="filter-bar-item">
-        <button className="clear-filters-button" aria-label="Limpiar filtros" onClick={clearFilters}>
+        <button
+          className="clear-filters-button"
+          aria-label="Limpiar filtros"
+          onClick={clearFilters}
+        >
           <FilterAltOffIcon style={{ marginRight: '5px' }} />
         </button>
       </div>

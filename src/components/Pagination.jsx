@@ -3,7 +3,14 @@ import { useAppContext } from '../context/AppContext';
 import '../styles/components/pagination.scss';
 
 const Pagination = () => {
-  const { totalPages, currentPage, fetchNews, isDarkMode, setCurrentPage, loading } = useAppContext();
+  const {
+    totalPages,
+    currentPage,
+    fetchNews,
+    isDarkMode,
+    setCurrentPage,
+    loading
+  } = useAppContext();
 
   const handlePageChange = (page) => {
     if (page < 1 || page > totalPages) return; // Asegúrate de que la página esté dentro del rango

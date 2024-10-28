@@ -46,12 +46,17 @@ export const AppProvider = ({ children }) => {
       try {
         const response = await axios.get(`${API}/news`, {
           headers: {
-            'x-api-key': API_KEY,
+            'x-api-key': API_KEY
           },
-          params: { page, limit, sort, category },
+          params: { page, limit, sort, category }
         });
 
-        const { data, total, totalPages, currentPage: responsePage } = response.data;
+        const {
+          data,
+          total,
+          totalPages,
+          currentPage: responsePage
+        } = response.data;
 
         if (Array.isArray(data)) {
           setNews(data);
@@ -78,7 +83,6 @@ export const AppProvider = ({ children }) => {
     },
     [sortOrder]
   );
-
 
   // Función para añadir noticias
   const addNews = async (newNews) => {
@@ -165,7 +169,6 @@ export const AppProvider = ({ children }) => {
       setLoading(false);
     }
   };
-
 
   return (
     <AppContext.Provider

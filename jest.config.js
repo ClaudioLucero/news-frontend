@@ -5,12 +5,10 @@ module.exports = {
   setupFilesAfterEnv: ['<rootDir>/setupTests.js'],
   moduleNameMapper: {
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
-    "^axios$": "axios/dist/node/axios.cjs"
+    '^axios$': 'axios/dist/node/axios.cjs'
   },
   transform: {
-    "^.+\\.(js|jsx)$": "babel-jest",
+    '^.+\\.(js|jsx)$': 'babel-jest'
   },
-  transformIgnorePatterns: [
-    "/node_modules/(?!axios)"
-  ]
+  transformIgnorePatterns: ['/node_modules/(?!axios)']
 };

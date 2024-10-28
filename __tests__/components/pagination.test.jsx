@@ -17,6 +17,7 @@ describe('Pagination component', () => {
             totalPages: 1,
             currentPage: 1,
             fetchNews: jest.fn(),
+            setCurrentPage: jest.fn(), // Agregar mock para setCurrentPage
             isDarkMode: false,
         });
 
@@ -31,6 +32,7 @@ describe('Pagination component', () => {
             totalPages: 5,
             currentPage: 1,
             fetchNews: jest.fn(),
+            setCurrentPage: jest.fn(), // Agregar mock para setCurrentPage
             isDarkMode: false,
         });
 
@@ -47,6 +49,7 @@ describe('Pagination component', () => {
             totalPages: 5,
             currentPage: 3,
             fetchNews: jest.fn(),
+            setCurrentPage: jest.fn(), // Agregar mock para setCurrentPage
             isDarkMode: false,
         });
 
@@ -62,6 +65,7 @@ describe('Pagination component', () => {
             totalPages: 5,
             currentPage: 5,
             fetchNews: jest.fn(),
+            setCurrentPage: jest.fn(), // Agregar mock para setCurrentPage
             isDarkMode: false,
         });
 
@@ -74,11 +78,13 @@ describe('Pagination component', () => {
 
     test('debería llamar a fetchNews al hacer clic en el botón anterior', () => {
         const fetchNewsMock = jest.fn();
+        const setCurrentPageMock = jest.fn(); // Mock para setCurrentPage
 
         useAppContext.mockReturnValue({
             totalPages: 5,
             currentPage: 2,
             fetchNews: fetchNewsMock,
+            setCurrentPage: setCurrentPageMock, // Agregar mock para setCurrentPage
             isDarkMode: false,
         });
 
@@ -86,17 +92,21 @@ describe('Pagination component', () => {
 
         fireEvent.click(screen.getByRole('button', { name: /anterior/i }));
 
+        // Verificar que setCurrentPage fue llamado con la página correcta
+        expect(setCurrentPageMock).toHaveBeenCalledWith(1);
         // Verificar que fetchNews fue llamado con el número de página correcto
         expect(fetchNewsMock).toHaveBeenCalledWith(1);
     });
 
     test('debería llamar a fetchNews al hacer clic en el botón siguiente', () => {
         const fetchNewsMock = jest.fn();
+        const setCurrentPageMock = jest.fn(); // Mock para setCurrentPage
 
         useAppContext.mockReturnValue({
             totalPages: 5,
             currentPage: 2,
             fetchNews: fetchNewsMock,
+            setCurrentPage: setCurrentPageMock, // Agregar mock para setCurrentPage
             isDarkMode: false,
         });
 
@@ -104,6 +114,8 @@ describe('Pagination component', () => {
 
         fireEvent.click(screen.getByRole('button', { name: /siguiente/i }));
 
+        // Verificar que setCurrentPage fue llamado con la página correcta
+        expect(setCurrentPageMock).toHaveBeenCalledWith(3);
         // Verificar que fetchNews fue llamado con el número de página correcto
         expect(fetchNewsMock).toHaveBeenCalledWith(3);
     });
@@ -113,6 +125,7 @@ describe('Pagination component', () => {
             totalPages: 2,
             currentPage: 1,
             fetchNews: jest.fn(),
+            setCurrentPage: jest.fn(), // Agregar mock para setCurrentPage
             isDarkMode: true,
         });
 
@@ -127,6 +140,7 @@ describe('Pagination component', () => {
             totalPages: 2,
             currentPage: 1,
             fetchNews: jest.fn(),
+            setCurrentPage: jest.fn(), // Agregar mock para setCurrentPage
             isDarkMode: false,
         });
 

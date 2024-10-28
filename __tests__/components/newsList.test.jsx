@@ -15,7 +15,7 @@ describe('NewsList component', () => {
         useAppContext.mockReturnValue({
             news: [],
             fetchNews: jest.fn().mockResolvedValueOnce(undefined),
-            loading: true,
+            loading: true, // Asegúrate de que esto sea true
             error: null,
             currentPage: 1,
         });
@@ -25,7 +25,7 @@ describe('NewsList component', () => {
         });
 
         // Verificar que el loader está presente
-        expect(screen.getByTestId('loader')).toBeInTheDocument();
+        expect(screen.getByTestId('loader')).toBeInTheDocument(); // Este debería funcionar si el data-testid está presente
     });
 
     test('debería mostrar un mensaje de error si ocurre un error al obtener noticias', async () => {

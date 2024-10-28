@@ -24,7 +24,10 @@ const MainContent = () => {
   };
 
   return (
-    <div role="main" className={`main-content ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
+    <div
+      role="main"
+      className={`main-content ${isDarkMode ? 'dark-mode' : 'light-mode'}`}
+    >
       {/* Barra de filtros */}
       <FilterBar />
 

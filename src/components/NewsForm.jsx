@@ -114,7 +114,7 @@ const NewsForm = ({ initialData = {}, onClose }) => {
           initial={{ scale: 0 }}
           animate={{ rotate: 360, scale: 1 }}
           transition={{
-            type: "spring",
+            type: 'spring',
             stiffness: 100,
             damping: 30
           }}
