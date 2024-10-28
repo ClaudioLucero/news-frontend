@@ -96,6 +96,7 @@ https://news-frontend-alpha.vercel.app/
 ## Consideraciones a Mejorar para una V3
 
 - Testing más profundo.
+- -Ver con mas profundidad el comportamiento de las paginas cuando se aplican filtros y aplicar soluciones correspondientes.
 - Mejorar cómo se está usando el loader y llamando desde varios componentes.
 - Optimizar rendimiento.
 - Llamados a la API cuando realmente sea necesario en relación al paginador, evaluar uso de react-cache.
