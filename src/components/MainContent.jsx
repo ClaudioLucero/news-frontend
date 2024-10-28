@@ -3,14 +3,13 @@ import React, { useState } from 'react';
 import { useAppContext } from '../context/AppContext';
 import NewsList from './NewsList';
 import NewsForm from './NewsForm';
-import Loader from './Loader';
 import AddCircleSharpIcon from '@mui/icons-material/AddCircleSharp';
 import Pagination from './Pagination';
 import FilterBar from './FilterBar'; // Importa el nuevo componente
 import '../styles/components/mainContent.scss';
 
 const MainContent = () => {
-  const { isDarkMode, loading } = useAppContext();
+  const { isDarkMode } = useAppContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingNews, setEditingNews] = useState(null);
 
@@ -31,8 +30,6 @@ const MainContent = () => {
       {/* Barra de filtros */}
       <FilterBar />
 
-      {/* Loader */}
-      {loading && <Loader />}
       {/* Lista de Noticias */}
       <NewsList setEditingNews={setEditingNews} openModal={openModal} />
 

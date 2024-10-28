@@ -6,10 +6,10 @@ import { useAppContext } from '../context/AppContext';
 import CloseIcon from '@mui/icons-material/Close';
 import { motion } from 'framer-motion';
 
-const MAX_DESCRIPTION_LENGTH = 100; // Definir la longitud máxima de la descripción
+const MAX_DESCRIPTION_LENGTH = 100;
 
 const NewsForm = ({ initialData = {}, onClose }) => {
-  const { isDarkMode, addNews, editNews, loading } = useAppContext();
+  const { isDarkMode, addNews, editNews, loading } = useAppContext(); // Obtener loading desde el contexto
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -21,11 +21,9 @@ const NewsForm = ({ initialData = {}, onClose }) => {
   const [formErrors, setFormErrors] = useState({});
   const categories = (process.env.REACT_APP_NEWS_CATEGORIES || '').split(',');
   const formRef = useRef(null);
-  const URL_REGEX =
-    /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+(\.[a-zA-Z]{2,})+\/?.*$/; // Expresión regular para validar URL
-  const AUTHOR_REGEX = /^[A-Za-z]+(?:\s[A-Za-z]+)+$/; // Expresión regular para validar nombre y apellido
+  const URL_REGEX = /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+(\.[a-zA-Z]{2,})+\/?.*$/;
+  const AUTHOR_REGEX = /^[A-Za-z]+(?:\s[A-Za-z]+)+$/;
 
-  // Cargar los datos iniciales si los hay (para editar)
   useEffect(() => {
     if (initialData && initialData._id) {
       setFormData({
@@ -50,7 +48,6 @@ const NewsForm = ({ initialData = {}, onClose }) => {
     const { name, value } = e.target;
 
     if (name === 'description' && value.length > MAX_DESCRIPTION_LENGTH) {
-      // Limitar la longitud de la descripción
       return;
     }
 
@@ -61,17 +58,14 @@ const NewsForm = ({ initialData = {}, onClose }) => {
     e.preventDefault();
     let errors = {};
 
-    // Validación de la URL si está presente
     if (formData.imageUrl && !URL_REGEX.test(formData.imageUrl)) {
       errors.imageUrl = 'URL de imagen no es válida';
     }
 
-    // Validación del autor
     if (!AUTHOR_REGEX.test(formData.author)) {
       errors.author = 'El autor debe incluir nombre y apellido';
     }
 
-    // Si hay errores, no enviar el formulario
     if (Object.keys(errors).length > 0) {
       setFormErrors(errors);
       return;
@@ -79,16 +73,14 @@ const NewsForm = ({ initialData = {}, onClose }) => {
 
     try {
       if (initialData._id) {
-        // Si hay un ID, es una edición
         const success = await editNews(initialData._id, formData);
         if (success) {
-          onClose(); // Cerrar el formulario después de editar
+          onClose();
         }
       } else {
-        // Si no hay ID, es una nueva noticia
         const success = await addNews(formData);
         if (success) {
-          onClose(); // Cerrar el formulario después de agregar
+          onClose();
         }
       }
     } catch (error) {
@@ -107,7 +99,7 @@ const NewsForm = ({ initialData = {}, onClose }) => {
       className={`modal-overlay ${isDarkMode ? 'dark' : 'light'}`}
       onClick={handleOutsideClick}
     >
-      {loading && <Loader />}
+      {loading && <Loader />} {/* Mostrar Loader si loading es true */}
       <div className={`news-form-modal ${isDarkMode ? 'dark' : 'light'}`}>
         <motion.div
           className={`news-form-modal ${isDarkMode ? 'dark' : 'light'}`}
@@ -147,7 +139,7 @@ const NewsForm = ({ initialData = {}, onClose }) => {
               value={formData.description}
               onChange={handleChange}
               required
-              maxLength={MAX_DESCRIPTION_LENGTH} // Limitar longitud
+              maxLength={MAX_DESCRIPTION_LENGTH}
             />
             <div className="limit-description">
               {`${formData.description.length}/${MAX_DESCRIPTION_LENGTH} caracteres`}
@@ -178,8 +170,7 @@ const NewsForm = ({ initialData = {}, onClose }) => {
             />
             {formErrors.author && (
               <p className="error-message">{formErrors.author}</p>
-            )}{' '}
-            {/* Mensaje de error */}
+            )}
             <label htmlFor="imageUrl">URL de Imagen:</label>
             <input
               type="text"
@@ -190,8 +181,7 @@ const NewsForm = ({ initialData = {}, onClose }) => {
             />
             {formErrors.imageUrl && (
               <p className="error">{formErrors.imageUrl}</p>
-            )}{' '}
-            {/* Mensaje de error */}
+            )}
             <button type="submit" disabled={loading}>
               {initialData._id ? 'Guardar Cambios' : 'Agregar Noticia'}
             </button>
